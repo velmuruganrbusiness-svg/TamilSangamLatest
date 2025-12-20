@@ -1,0 +1,146 @@
+
+export type Language = 'ta' | 'en';
+
+export const translations = {
+  // Common
+  write: { ta: 'எழுது', en: 'Write' },
+  toggleLanguage: { ta: 'மொழியை மாற்று', en: 'Change Language' },
+  toggleTheme: { ta: 'தோற்றத்தை மாற்று', en: 'Toggle Theme' },
+  login: { ta: 'உள்நுழை', en: 'Login' },
+  logout: { ta: 'வெளியேறு', en: 'Logout' },
+  about: { ta: 'எங்களைப் பற்றி', en: 'About Us' },
+  contact: { ta: 'தொடர்புக்கு', en: 'Contact' },
+  terms: { ta: 'விதிமுறைகள்', en: 'Terms' },
+  copyright: { ta: 'பதிப்புரிமை', en: 'Copyright' },
+  maintainedBy: { ta: 'பராமரிப்பு', en: 'Maintained by' },
+  
+  // Home
+  wordOfTheDay: { ta: 'இன்றைய சொல்', en: 'Word of the Day' },
+  meaning: { ta: 'பொருள்', en: 'Meaning' },
+  tagline: { ta: 'தமிழ் இலக்கியத்தின் இணைய வாசல்', en: 'The Digital Gateway to Tamil Literature' },
+  subTagline: { ta: 'படிக்க, பகிர, படைக்க - ஓர் உலகளாவிய மேடை', en: 'Read, Share, Create - A Global Platform' },
+  latestPosts: { ta: 'சமீபத்திய பதிவுகள்', en: 'Latest Posts' },
+  searchIn: { ta: '{category} இல் தேடுக', en: 'Search in {category}' },
+  searchResultsFor: { ta: '{query} - தேடல் முடிவுகள்', en: 'Search results for {query}' },
+  posts: { ta: 'பதிவுகள்', en: 'Posts' },
+  noSearchResults: { ta: 'தேடல் முடிவுகள் இல்லை', en: 'No search results found' },
+  noPostsFound: { ta: 'பதிவுகள் ஏதும் இல்லை', en: 'No posts found' },
+  
+  // Post View
+  comments: { ta: 'கருத்துகள்', en: 'Comments' },
+  postCommentPlaceholder: { ta: 'உங்கள் கருத்தைப் பதிவு செய்க...', en: 'Write a comment...' },
+  post: { ta: 'பதிவிடுக', en: 'Post' },
+  home: { ta: 'முகப்பு', en: 'Home' },
+  appearance: { ta: 'தோற்றம்', en: 'Appearance' },
+  fontSize: { ta: 'எழுத்து அளவு', en: 'Font Size' },
+  scrollMode: { ta: 'உருள் முறை', en: 'Scroll Mode' },
+  bookMode: { ta: 'புத்தக முறை', en: 'Book Mode' },
+  soundOn: { ta: 'ஒலி ஆன்', en: 'Sound On' },
+  soundOff: { ta: 'ஒலி ஆஃப்', en: 'Sound Off' },
+  share: { ta: 'பகிர்', en: 'Share' },
+  linkCopied: { ta: 'இணைப்பு நகலெடுக்கப்பட்டது!', en: 'Link copied!' },
+  prevPage: { ta: 'முந்தைய', en: 'Previous' },
+  pageOf: { ta: 'பக்கம் {current} / {total}', en: 'Page {current} of {total}' },
+  nextPage: { ta: 'அடுத்த', en: 'Next' },
+  relatedPosts: { ta: 'தொடர்புடைய பதிவுகள்', en: 'Related Posts' },
+  
+  // Editor
+  submitYourWork: { ta: 'உங்கள் படைப்பை அனுப்புங்கள்', en: 'Submit Your Work' },
+  category: { ta: 'பிரிவு', en: 'Category' },
+  title: { ta: 'தலைப்பு', en: 'Title' },
+  titlePlaceholder: { ta: 'தலைப்பை இங்கே எழுதுங்கள்...', en: 'Enter title here...' },
+  content: { ta: 'உள்ளடக்கம்', en: 'Content' },
+  contentPlaceholder: { ta: 'உங்கள் படைப்பை இங்கே எழுதுங்கள்...', en: 'Write your content here...' },
+  submit: { ta: 'சமர்ப்பி', en: 'Submit' },
+  
+  // Classics
+  classics: { ta: 'சங்க இலக்கியம்', en: 'Classics' },
+  participate: { ta: 'பங்கேற்க', en: 'Participate' },
+  
+  // Login Modal
+  loginRegister: { ta: 'உள்நுழை / பதிவு செய்க', en: 'Log In / Register' },
+  loginPrompt: { ta: 'தொடர உள்நுழையவும்', en: 'Please login to continue' },
+  continueWithGoogle: { ta: 'கூகுள் மூலம் தொடர', en: 'Continue with Google' },
+  or: { ta: 'அல்லது', en: 'OR' },
+  emailPlaceholder: { ta: 'மின்னஞ்சல் முகவரி', en: 'Email address' },
+  continueWithEmail: { ta: 'மின்னஞ்சல் மூலம் தொடர', en: 'Continue with Email' },
+  
+  // Category Pills
+  all: { ta: 'அனைத்தும்', en: 'All' },
+  
+  // Sidebar
+  creations: { ta: 'படைப்புகள்', en: 'Creations' },
+  poems: { ta: 'கவிதைகள்', en: 'Poems' },
+  stories: { ta: 'கதைகள்', en: 'Stories' },
+  articles: { ta: 'கட்டுரைகள்', en: 'Articles' },
+  treasury: { ta: 'கருவூலம்', en: 'Treasury' },
+  quotes: { ta: 'மேற்கோள்கள்', en: 'Quotes' },
+  ponmozhigal: { ta: 'பொன்மொழிகள்', en: 'Golden Words' },
+  proverbs: { ta: 'பழமொழிகள்', en: 'Proverbs' },
+  motivation: { ta: 'ஊக்கம்', en: 'Motivation' },
+  history: { ta: 'வரலாறு', en: 'History' },
+  competitions: { ta: 'போட்டிகள்', en: 'Competitions' },
+  learnTamil: { ta: 'தமிழ் கற்க', en: 'Learn Tamil' },
+  
+  // Potikal
+  deadline: { ta: 'கடைசி தேதி', en: 'Deadline' },
+  prize: { ta: 'பரிசு', en: 'Prize' },
+  completed: { ta: 'முடிந்தது', en: 'Completed' },
+  active: { ta: 'செயலில் உள்ளது', en: 'Active' },
+  upcoming: { ta: 'விரைவில்', en: 'Upcoming' },
+
+  // Learn Tamil
+  vowels: { ta: 'உயிர் எழுத்துக்கள்', en: 'Vowels' },
+  vowelsDesc: { ta: 'தமிழ் மொழியின் உயிா்ப் போன்ற முதன்மை எழுத்துக்கள். இவை தனித்து இயங்கும் வல்லமை பெற்றவை.', en: 'Primary letters that act like the soul of the Tamil language. They have the power to function independently.' },
+  consonants: { ta: 'மெய் எழுத்துக்கள்', en: 'Consonants' },
+  consonantsDesc: { ta: 'மெய் (உடல்) போன்ற எழுத்துக்கள். இவை உயிரெழுத்துக்களோடு சேர்ந்து உயிர்மெய் எழுத்துக்களை உருவாக்குகின்றன.', en: 'Letters that act like the body. They combine with vowels to form compound letters.' },
+  aayutham: { ta: 'ஆயுத எழுத்து', en: 'Aayutha Ezhuthu' },
+  aayuthamDesc: { ta: 'இது தனிநிலை எனப்படும். உயிரோடும் மெய்யோடும் சாராமல் தனித்து ஒலிக்கும்.', en: 'A special character that stands alone, distinct from vowels and consonants.' },
+  uyirmei: { ta: 'உயிர்மெய் எழுத்துக்கள்', en: 'Uyirmei Ezhuthukal (Compound)' },
+  uyirmeiDesc: { ta: 'உயிரும் மெய்யும் இணைந்த எழுத்துக்கள் (18 × 12 = 216).', en: 'Letters formed by combining vowels and consonants (18 × 12 = 216).' },
+  numbers: { ta: 'எண்கள்', en: 'Numbers' },
+  numbersDesc: { ta: 'தமிழ் எண்கள் மற்றும் அவற்றின் பெயர்கள்.', en: 'Tamil numerals and their names.' },
+  days: { ta: 'நாட்கள்', en: 'Days' },
+  daysDesc: { ta: 'வாரத்தின் ஏழு நாட்கள்.', en: 'The seven days of the week.' },
+  months: { ta: 'தமிழ் மாதங்கள்', en: 'Tamil Months' },
+  monthsDesc: { ta: 'பன்னிரண்டு தமிழ் மாதங்கள்.', en: 'The twelve Tamil months.' },
+  example: { ta: 'உதாரணம்', en: 'Example' },
+  ilakkanam: { ta: 'தமிழ் இலக்கணம்', en: 'Tamil Grammar' },
+  ilakkanamDesc: { ta: 'தமிழ் மொழியின் ஐந்து வகை இலக்கணங்கள்.', en: 'The five types of Tamil Grammar.' },
+  sentences: { ta: 'சொற்றொடர் அமைப்பு', en: 'Sentence Structure' },
+  sentencesDesc: { ta: 'தமிழ் வாக்கியங்களை அமைக்கும் முறை (எழுவாய் - செயப்படுபொருள் - பயனிலை).', en: 'Learn how to form sentences in Tamil (Subject-Object-Verb order).' },
+  phrases: { ta: 'தினசரி வார்த்தைகள்', en: 'Common Phrases' },
+  phrasesDesc: { ta: 'அன்றாட வாழ்வில் பயன்படும் முக்கிய வார்த்தைகள் மற்றும் வாக்கியங்கள்.', en: 'Useful phrases and words for daily conversation.' },
+  script: { ta: 'எழுத்துப் பயிற்சி', en: 'Script Practice' },
+  scriptDesc: { ta: 'எழுத்துக்களின் வடிவ ஒற்றுமையை அறிந்து எழுதுவதைப் பழகுங்கள்.', en: 'Practice writing Tamil letters based on their shape families.' },
+  seasons: { ta: 'பருவங்கள்', en: 'Seasons' },
+  seasonsDesc: { ta: 'தமிழின் ஆறு பருவ காலங்கள்.', en: 'The six seasons of Tamil land.' },
+  directions: { ta: 'திசைகள்', en: 'Directions' },
+  directionsDesc: { ta: 'நான்கு முக்கிய திசைகள்.', en: 'The four cardinal directions.' },
+  tastes: { ta: 'அறுசுவை', en: 'The Six Tastes' },
+  tastesDesc: { ta: 'உணவின் ஆறு வகை சுவைகள்.', en: 'The six types of tastes in Tamil cuisine.' },
+  relations: { ta: 'உறவுகள்', en: 'Relations' },
+  relationsDesc: { ta: 'குடும்ப உறவுமுறைகளின் பெயர்கள்.', en: 'Names of family relationships.' },
+  colors: { ta: 'நிறங்கள்', en: 'Colors' },
+  colorsDesc: { ta: 'அடிப்படை நிறங்களின் பெயர்கள்.', en: 'Names of basic colors.' },
+  animals: { ta: 'விலங்குகள்', en: 'Animals' },
+  animalsDesc: { ta: 'காட்டு மற்றும் வீட்டு விலங்குகள்.', en: 'Wild and domestic animals.' },
+  birds: { ta: 'பறவைகள்', en: 'Birds' },
+  birdsDesc: { ta: 'பொதுவான பறவைகளின் பெயர்கள்.', en: 'Names of common birds.' },
+  bodyParts: { ta: 'உடல் உறுப்புகள்', en: 'Body Parts' },
+  bodyPartsDesc: { ta: 'மனித உடலின் முக்கிய உறுப்புகள்.', en: 'Major parts of the human body.' },
+  vegetables: { ta: 'காய்கறிகள்', en: 'Vegetables' },
+  vegetablesDesc: { ta: 'உணவில் பயன்படுத்தப்படும் காய்கறிகளின் பெயர்கள்.', en: 'Names of common vegetables used in food.' },
+  fruits: { ta: 'பழங்கள்', en: 'Fruits' },
+  fruitsDesc: { ta: 'சுவையான பழங்களின் பெயர்கள்.', en: 'Names of delicious fruits.' },
+  flowers: { ta: 'பூக்கள்', en: 'Flowers' },
+  flowersDesc: { ta: 'அழகிய மலர்களின் பெயர்கள்.', en: 'Names of beautiful flowers.' },
+  shapes: { ta: 'வடிவங்கள்', en: 'Shapes' },
+  shapesDesc: { ta: 'அடிப்படை வடிவங்களின் பெயர்கள்.', en: 'Names of basic geometric shapes.' },
+  actions: { ta: 'செயல்கள்', en: 'Actions' },
+  actionsDesc: { ta: 'தினசரி நாம் செய்யும் செயல்கள் (வினைச்சொற்கள்).', en: 'Daily actions we perform (Verbs).' },
+};
+
+export const t = (key: keyof typeof translations, lang: Language): string => {
+  return translations[key]?.[lang] || key;
+};
