@@ -6,7 +6,6 @@ import { t, Language } from '../utils/translations';
 import { SEO } from './SEO';
 import { PostCard } from './PostCard';
 import { mockApi } from '../services/mockApi';
-import { aiService } from '../services/ai';
 import { Breadcrumbs } from './Breadcrumbs';
 
 interface PostViewProps {
@@ -22,9 +21,6 @@ export const PostView: React.FC<PostViewProps> = ({ post, onNavigate, language }
   const [fontSize, setFontSize] = useState<'text-lg' | 'text-xl' | 'text-2xl' | 'text-3xl'>('text-xl');
   const [relatedPosts, setRelatedPosts] = useState<Post[]>([]);
   
-  const [aiSummary, setAiSummary] = useState<string | null>(null);
-  const [isSummarizing, setIsSummarizing] = useState(false);
-
   useEffect(() => {
       const fetchRelated = async () => {
           const allPosts = await mockApi.getPosts();
@@ -36,14 +32,6 @@ export const PostView: React.FC<PostViewProps> = ({ post, onNavigate, language }
       };
       fetchRelated();
   }, [post.id, post.category]);
-
-  const handleAiSummarize = async () => {
-      if (aiSummary) return;
-      setIsSummarizing(true);
-      const summary = await aiService.summarizePost(post.title, post.content);
-      setAiSummary(summary);
-      setIsSummarizing(false);
-  };
 
   const handleLike = () => {
     if (isLiked) { setLikes(likes - 1); setIsLiked(false); } 
@@ -86,20 +74,6 @@ export const PostView: React.FC<PostViewProps> = ({ post, onNavigate, language }
                 <p className="text-xs text-stone-500">{new Date(post.createdAt).toLocaleDateString('ta-IN', { dateStyle: 'long' })}</p>
             </div>
         </div>
-      </div>
-
-      <div className="mb-10">
-          <button 
-            onClick={handleAiSummarize}
-            disabled={isSummarizing}
-            className={`w-full p-6 rounded-3xl border-2 border-dashed flex flex-col items-center gap-3 transition-all ${aiSummary ? 'bg-indigo-50/50 border-indigo-200 dark:bg-indigo-900/10 dark:border-indigo-900/30' : 'bg-white/40 hover:bg-white/60 border-[#eaddcf] dark:bg-[#1a1a1a] dark:border-neutral-800 dark:hover:bg-neutral-800/50'}`}
-          >
-              <div className="flex items-center gap-3 text-indigo-600 dark:text-indigo-400 font-bold">
-                  <Icon name="bulb" />
-                  <span className="font-tamil">{isSummarizing ? "Gemini சுருக்கி கொண்டிருக்கிறது..." : aiSummary ? "Gemini சுருக்கம்" : "Gemini AI மூலம் சுருக்கத்தை வாசிக்க"}</span>
-              </div>
-              {aiSummary && <p className="text-stone-700 dark:text-stone-300 font-tamil text-lg leading-relaxed text-center">{aiSummary}</p>}
-          </button>
       </div>
 
       <div className="bg-[#fdf8f1]/90 dark:bg-[#1a1a1a] rounded-[2.5rem] p-8 md:p-12 shadow-2xl border border-[#eaddcf] dark:border-neutral-800 relative">

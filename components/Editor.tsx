@@ -4,7 +4,6 @@ import type { Category, Post } from '../types';
 import { t, Language } from '../utils/translations';
 import { SEO } from './SEO';
 import { Icon } from './Icon';
-import { aiService } from '../services/ai';
 import { Breadcrumbs } from './Breadcrumbs';
 
 interface EditorProps {
@@ -18,15 +17,6 @@ export const Editor: React.FC<EditorProps> = ({ onSubmit, language, onNavigate }
   const [content, setContent] = useState('');
   const [category, setCategory] = useState<Category>('கவிதை');
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [isRefining, setIsRefining] = useState(false);
-
-  const handleRefineWithAI = async () => {
-      if (!content.trim()) return;
-      setIsRefining(true);
-      const refined = await aiService.refineTamilText(content, category);
-      setContent(refined);
-      setIsRefining(false);
-  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -77,15 +67,6 @@ export const Editor: React.FC<EditorProps> = ({ onSubmit, language, onNavigate }
             <div className="relative">
                 <div className="flex justify-between items-center mb-3">
                     <label className="text-xs font-bold text-[#8a7060] uppercase tracking-widest">{t('content', language)}</label>
-                    <button 
-                        type="button" 
-                        onClick={handleRefineWithAI}
-                        disabled={isRefining || !content}
-                        className={`flex items-center gap-2 px-4 py-1.5 rounded-full text-xs font-bold transition-all ${isRefining ? 'bg-indigo-100 text-indigo-600 animate-pulse' : 'bg-indigo-600 text-white hover:bg-indigo-700 shadow-lg shadow-indigo-600/20'}`}
-                    >
-                        <Icon name="bulb" />
-                        <span>{isRefining ? "Refining..." : "Gemini AI மூலம் மெருகூட்டுக"}</span>
-                    </button>
                 </div>
                 <textarea value={content} onChange={(e) => setContent(e.target.value)} rows={15} className="w-full p-6 bg-white/50 dark:bg-neutral-900 border border-[#eaddcf] dark:border-neutral-800 rounded-3xl font-tamil text-xl leading-relaxed text-[#3e2b22] dark:text-stone-200 focus:ring-2 focus:ring-rose-500 transition-all resize-none" placeholder={t('contentPlaceholder', language)} />
             </div>
