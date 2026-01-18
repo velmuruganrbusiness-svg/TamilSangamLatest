@@ -18,7 +18,6 @@ export const PostView: React.FC<PostViewProps> = ({ post, onNavigate, language }
   const [likes, setLikes] = useState(post.likes);
   const [isLiked, setIsLiked] = useState(false);
   const [showCopied, setShowCopied] = useState(false);
-  const [fontSize, setFontSize] = useState<'text-lg' | 'text-xl' | 'text-2xl' | 'text-3xl'>('text-xl');
   const [relatedPosts, setRelatedPosts] = useState<Post[]>([]);
   
   useEffect(() => {
@@ -39,7 +38,7 @@ export const PostView: React.FC<PostViewProps> = ({ post, onNavigate, language }
   };
 
   const handleShare = async () => {
-    const shareUrl = `https://tamilsangam.app/post/${post.id}`;
+    const shareUrl = window.location.href;
     try {
         if (navigator.share) await navigator.share({ title: post.title, url: shareUrl });
         else {
@@ -50,61 +49,107 @@ export const PostView: React.FC<PostViewProps> = ({ post, onNavigate, language }
     } catch (e) {}
   };
 
+  const handlePrint = () => {
+    window.print();
+  };
+
   const breadcrumbs = [
       { label: t('home', language), onClick: () => onNavigate('home'), icon: 'home' as const },
-      { label: t('creations', language), icon: 'collection' as const },
       { label: post.category, onClick: () => onNavigate('category', null, post.category) },
       { label: post.title, active: true }
   ];
 
+  const isPoem = post.category === 'கவிதை';
+
   return (
-    <article className="max-w-4xl mx-auto animate-fade-in pb-20">
-      <SEO title={`${post.title} | தமிழ்ச் சங்கம்`} description={post.content.substring(0, 160)} />
+    <article className="max-w-4xl mx-auto pt-4 pb-32 px-4 animate-subtle-fade bg-bone dark:bg-stone-950">
+      <SEO title={`${post.title} | VetriZen`} description={post.content.substring(0, 160)} />
 
-      <Breadcrumbs items={breadcrumbs} />
-
-      <div className="mb-10 text-center">
-        <span className="inline-block px-4 py-1.5 rounded-full bg-rose-500/10 text-rose-500 text-xs font-bold uppercase tracking-widest mb-6">{post.category}</span>
-        <h1 className="text-4xl md:text-6xl font-black font-tamil text-[#3e2b22] dark:text-stone-50 leading-tight mb-8">{post.title}</h1>
-        
-        <div className="flex items-center justify-center gap-4">
-            <img src={post.author.avatarUrl} className="w-12 h-12 rounded-full ring-2 ring-rose-500/20" alt={post.author.name} />
-            <div className="text-left">
-                <button onClick={() => onNavigate('author', post.author.id)} className="font-bold text-[#5c4235] dark:text-stone-200 hover:text-rose-600 transition-colors">{post.author.name}</button>
-                <p className="text-xs text-stone-500">{new Date(post.createdAt).toLocaleDateString('ta-IN', { dateStyle: 'long' })}</p>
-            </div>
-        </div>
+      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-8 gap-4">
+        <Breadcrumbs items={breadcrumbs} />
+        <button 
+          onClick={() => onNavigate('category', null, post.category)}
+          className="flex items-center gap-2 text-xs font-bold text-stone-500 hover:text-zen-green transition-all duration-300 uppercase tracking-widest px-2 py-1"
+        >
+          <Icon name="chevron-left" />
+          <span>{t('backToGallery', language)}</span>
+        </button>
       </div>
 
-      <div className="bg-[#fdf8f1]/90 dark:bg-[#1a1a1a] rounded-[2.5rem] p-8 md:p-12 shadow-2xl border border-[#eaddcf] dark:border-neutral-800 relative">
-        <div className="absolute top-6 right-8 flex gap-2">
-             <button onClick={() => setFontSize(f => f === 'text-xl' ? 'text-2xl' : 'text-xl')} className="p-2 text-[#8a7060] hover:text-rose-500 transition-colors" title={t('appearance', language)}><Icon name="settings" /></button>
-             <button onClick={handleShare} className="p-2 text-[#8a7060] hover:text-rose-500 transition-colors" title={t('share', language)}><Icon name="share" /></button>
+      <header className="mb-16 text-center">
+        <h1 className="text-4xl md:text-6xl font-bold font-tamil-serif text-zen-green dark:text-zen-lightGreen leading-tight mb-6">
+          {post.title}
+        </h1>
+        <div className="flex items-center justify-center gap-2 text-stone-500 dark:text-stone-400 text-[12px] font-medium uppercase tracking-[0.15em]">
+          <button 
+            onClick={() => onNavigate('author', post.author.id)} 
+            className="hover:text-zen-green transition-all duration-300 font-bold"
+          >
+            {post.author.name}
+          </button>
+          <span>•</span>
+          <span>{new Date(post.createdAt).toLocaleDateString('ta-IN', { dateStyle: 'long' })}</span>
         </div>
+      </header>
 
-        <div className={`prose max-w-none font-tamil text-[#3e2b22] dark:text-stone-300 leading-loose whitespace-pre-wrap ${fontSize}`}>
+      <div className="max-w-[700px] mx-auto">
+        <div className={`font-tamil-serif text-stone-800 dark:text-stone-300 leading-[2.2] whitespace-pre-wrap text-xl md:text-2xl ${isPoem ? 'text-center italic' : 'text-left'}`}>
             {post.content}
         </div>
 
-        <div className="mt-12 pt-8 border-t border-[#eaddcf] dark:border-neutral-800 flex items-center justify-between">
-            <button onClick={handleLike} className={`flex items-center gap-2 px-6 py-2.5 rounded-full font-bold transition-all ${isLiked ? 'bg-rose-500 text-white shadow-lg shadow-rose-500/30' : 'bg-[#eaddcf]/30 text-[#5c4235] dark:bg-neutral-800 dark:text-stone-400'}`}>
-                <Icon name="like" isFilled={isLiked} />
-                <span>{likes}</span>
-            </button>
-            <div className="flex gap-4">
-                 <button onClick={() => onNavigate('home')} className="text-[#8a7060] hover:text-rose-600 dark:hover:text-stone-200 font-bold font-tamil">முகப்பு</button>
+        <div className="flex flex-col items-center mt-16 mb-4 opacity-60 select-none">
+            <div className="text-zen-green dark:text-zen-lightGreen">
+                <Icon name="leaf" />
             </div>
+            <span className="text-[10px] font-bold uppercase tracking-[0.4em] mt-3 text-stone-700 dark:text-stone-400">
+                {t('theEnd', language)}
+            </span>
+        </div>
+
+        <div className="pt-16 border-t border-stone-200 dark:border-stone-800 flex flex-wrap items-center justify-center gap-8 sm:gap-12">
+            <button 
+              onClick={handleLike} 
+              className={`flex items-center gap-2 text-xs font-bold transition-all duration-300 ${isLiked ? 'text-zen-terracotta' : 'text-stone-600 dark:text-stone-400 hover:text-zen-green'}`}
+              title="Like"
+            >
+                <Icon name="like" isFilled={isLiked} />
+                <span className="tracking-widest uppercase">{likes}</span>
+            </button>
+            
+            <button 
+              onClick={handleShare} 
+              className="flex items-center gap-2 text-xs font-bold text-stone-600 dark:text-stone-400 hover:text-zen-green transition-all duration-300"
+              title={t('share', language)}
+            >
+                <Icon name="share" />
+                <span className="tracking-widest uppercase">{t('share', language)}</span>
+            </button>
+
+            <button 
+              onClick={handlePrint} 
+              className="flex items-center gap-2 text-xs font-bold text-stone-600 dark:text-stone-400 hover:text-zen-green transition-all duration-300"
+              title={t('print', language)}
+            >
+                <Icon name="printer" />
+                <span className="tracking-widest uppercase">{t('print', language)}</span>
+            </button>
         </div>
       </div>
 
       {relatedPosts.length > 0 && (
-          <div className="mt-20">
-              <h3 className="text-2xl font-bold font-tamil mb-8 text-[#3e2b22] dark:text-stone-200 flex items-center gap-3">
-                  <span className="w-2 h-8 bg-rose-500 rounded-full"></span>
-                  தொடர்புடைய பதிவுகள்
+          <div className="mt-16 border-t border-stone-200 dark:border-stone-800 pt-16">
+              <h3 className="text-xl font-bold font-tamil text-stone-800 dark:text-stone-200 mb-12 text-center uppercase tracking-[0.1em]">
+                  {t('relatedPosts', language)}
               </h3>
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                  {relatedPosts.map(p => <PostCard key={p.id} post={p} onNavigate={(page, id) => onNavigate(page as any, id)} />)}
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8">
+                  {relatedPosts.map(p => (
+                    <PostCard 
+                      key={p.id} 
+                      post={p} 
+                      onNavigate={(page, id) => onNavigate(page as any, id)}
+                      variant="related" 
+                    />
+                  ))}
               </div>
           </div>
       )}

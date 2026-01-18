@@ -9,11 +9,11 @@ interface CategoryPillsProps {
   language: Language;
 }
 
-const categories: Category[] = ['கவிதை', 'கதை', 'கட்டுரை', 'மேற்கோள்'];
+const categories: Category[] = ['கவிதை', 'கதை', 'கட்டுரை', 'மேற்கோள்', 'பொன்மொழி', 'ஊக்கம்', 'வரலாறு', 'பழமொழி'];
 
 export const CategoryPills: React.FC<CategoryPillsProps> = ({ selectedCategory, onSelectCategory, language }) => {
   return (
-    <div className="flex flex-nowrap md:flex-wrap items-center gap-8 px-2 py-2">
+    <div className="flex items-center gap-8 py-2 px-2">
       <CategoryItem 
         label={t('all', language)} 
         isActive={!selectedCategory} 
@@ -34,23 +34,14 @@ export const CategoryPills: React.FC<CategoryPillsProps> = ({ selectedCategory, 
 const CategoryItem: React.FC<{ label: string; isActive: boolean; onClick: () => void }> = ({ label, isActive, onClick }) => (
     <button
         onClick={onClick}
-        className={`group relative px-2 py-1 text-lg font-bold font-tamil transition-all duration-300 ease-out select-none outline-none focus:outline-none ${
+        className={`group relative px-0 py-2 text-sm font-bold uppercase tracking-widest transition-all duration-500 ease-out outline-none focus:outline-none flex flex-col items-center ${
             isActive 
-            ? 'text-rose-600 dark:text-rose-400 scale-105' 
-            : 'text-stone-500 hover:text-rose-600 dark:text-stone-400 dark:hover:text-rose-400'
+            ? 'text-zen-green' 
+            : 'text-stone-400 hover:text-stone-600 dark:text-stone-500 dark:hover:text-stone-300'
         }`}
     >
-        {/* Text Label */}
-        <span className="relative z-10 block transition-transform duration-300 group-hover:-translate-y-0.5">
+        <span className="relative z-10 block">
             {label}
         </span>
-        
-        {/* Magic Underline - Expands from center */}
-        <span className={`absolute bottom-0 left-1/2 -translate-x-1/2 h-0.5 bg-rose-600 dark:bg-rose-400 rounded-full transition-all duration-300 ease-out ${
-            isActive ? 'w-full opacity-100' : 'w-0 opacity-0 group-hover:w-full group-hover:opacity-100'
-        }`} />
-        
-        {/* Subtle Ambient Glow on Hover */}
-        <span className="absolute inset-0 bg-rose-100/0 dark:bg-rose-500/0 rounded-lg blur-md transition-all duration-500 group-hover:bg-rose-400/20 dark:group-hover:bg-rose-400/10 -z-10 scale-50 group-hover:scale-110 opacity-0 group-hover:opacity-100" />
     </button>
 );

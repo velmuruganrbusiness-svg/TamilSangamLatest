@@ -8,7 +8,6 @@ import { ClassicsView } from './components/ClassicsView';
 import { PotikalView } from './components/PotikalView';
 import { TamilKarkaView } from './components/TamilKarkaView';
 import { LoginModal } from './components/LoginModal';
-import { Sidebar } from './components/Sidebar';
 import { Header } from './components/Header';
 import { mockApi } from './services/mockApi';
 import { api as realApi } from './services/api';
@@ -33,8 +32,6 @@ const App: React.FC = () => {
   const [currentUser, setCurrentUser] = useState<User | null>(null);
   const [showLoginModal, setShowLoginModal] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(true);
-  const [sidebarOpen, setSidebarOpen] = useState<boolean>(false);
-  const [isSidebarCollapsed, setIsSidebarCollapsed] = useState<boolean>(false);
   const [language, setLanguage] = useState<Language>('ta');
   const [theme, setTheme] = useState<Theme>('light');
   const [searchQuery, setSearchQuery] = useState<string>('');
@@ -88,15 +85,13 @@ const App: React.FC = () => {
     if (newPage === 'category') setSelectedCategory(category);
     if (newPage === 'classics') setSelectedClassicalWorkId(workId);
     if (newPage === 'author') setSelectedAuthorId(id);
-    setSidebarOpen(false);
     setSearchQuery('');
     window.scrollTo(0, 0);
   };
   
-  const toggleSidebarCollapse = () => setIsSidebarCollapsed(prev => !prev);
   const handleSearch = (query: string) => setSearchQuery(query);
   const handleLogin = () => {
-    setCurrentUser({ id: 1, name: 'வாசகர்', avatarUrl: 'https://ui-avatars.com/api/?name=User&background=be123c&color=fff' });
+    setCurrentUser({ id: 1, name: 'வாசகர்', avatarUrl: 'https://ui-avatars.com/api/?name=User&background=4A6741&color=fff' });
     setShowLoginModal(false);
   };
   const handleLogout = () => setCurrentUser(null);
@@ -157,45 +152,30 @@ const App: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen flex">
-      {sidebarOpen && <div className="fixed inset-0 bg-black/40 backdrop-blur-sm z-30 md:hidden" onClick={() => setSidebarOpen(false)}></div>}
-      
-      <Sidebar
+    <div className="min-h-screen flex flex-col transition-colors duration-500 bg-[#F9F8F4] dark:bg-stone-950">
+      <Header 
+        currentUser={currentUser}
+        onLoginClick={() => setShowLoginModal(true)}
+        onLogout={handleLogout}
         onNavigate={handleNavigate}
-        isOpen={sidebarOpen}
-        isCollapsed={isSidebarCollapsed}
-        onToggleCollapse={toggleSidebarCollapse}
         language={language}
+        theme={theme}
+        onToggleLanguage={toggleLanguage}
+        onToggleTheme={toggleTheme}
+        activePage={page}
+        activeCategory={selectedCategory}
       />
-      
-      <div className={`flex flex-col flex-1 min-w-0 transition-all duration-300 ${isSidebarCollapsed ? 'md:ml-20' : 'md:ml-64'}`}>
-        <Header 
-          currentUser={currentUser}
-          onLoginClick={() => setShowLoginModal(true)}
-          onLogout={handleLogout}
-          onNavigate={handleNavigate}
-          language={language}
-          theme={theme}
-          onToggleLanguage={toggleLanguage}
-          onToggleTheme={toggleTheme}
-        />
 
-        <div className="md:hidden h-14 border-b border-[#3e2b22] bg-[#2b1d16] flex items-center px-4 justify-between">
-            <button onClick={() => setSidebarOpen(true)} className="p-2 text-[#d6cbb8]"><Icon name="expand" /></button>
-            <div className="text-rose-500"><Icon name="brand-logo" /></div>
-            <div className="w-10"></div>
+      <main className="flex-grow flex justify-center pt-[216px] pb-6 sm:pb-12 px-4 bg-[#F9F8F4] dark:bg-stone-950">
+        <div className="w-full max-w-5xl">
+           {renderContent()}
         </div>
+      </main>
 
-        <main className="flex-grow p-4 sm:p-8">
-          <div className="max-w-7xl mx-auto">
-             {renderContent()}
-          </div>
-        </main>
-        <Footer language={language} />
-      </div>
+      <Footer language={language} />
 
       {showScrollTop && (
-        <button onClick={() => window.scrollTo({top:0, behavior:'smooth'})} className="fixed bottom-6 right-6 p-3 rounded-full bg-rose-600 text-white shadow-xl hover:bg-rose-700 transition-all z-50 flex items-center justify-center">
+        <button onClick={() => window.scrollTo({top:0, behavior:'smooth'})} className="fixed bottom-8 right-8 p-4 rounded-full bg-zen-green text-white shadow-2xl hover:bg-zen-lightGreen transition-all z-50 flex items-center justify-center">
           <Icon name="arrow-up" />
         </button>
       )}

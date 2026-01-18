@@ -15,10 +15,10 @@ interface PotikalViewProps {
 export const PotikalView: React.FC<PotikalViewProps> = ({ competitions, language, onNavigate }) => {
   const getStatusColor = (status: Competition['status']) => {
     switch (status) {
-        case 'active': return 'bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-300 border-green-200 dark:border-green-800';
-        case 'upcoming': return 'bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-300 border-blue-200 dark:border-blue-800';
+        case 'active': return 'bg-[#5A7D5B]/10 text-[#5A7D5B] border-[#5A7D5B]/20';
+        case 'upcoming': return 'bg-blue-50 text-blue-700 dark:bg-blue-900/20 dark:text-blue-300 border-blue-100 dark:border-blue-800';
         case 'completed': return 'bg-stone-100 text-stone-600 dark:bg-stone-800 dark:text-stone-400 border-stone-200 dark:border-stone-700';
-        default: return 'bg-stone-100 text-stone-800';
+        default: return 'bg-stone-50 text-stone-800';
     }
   };
 
@@ -28,26 +28,26 @@ export const PotikalView: React.FC<PotikalViewProps> = ({ competitions, language
   ];
 
   return (
-    <div className="max-w-6xl mx-auto pb-20 animate-fade-in">
+    <div className="max-w-6xl mx-auto pb-20 animate-subtle-fade">
       <SEO 
-        title={`${t('competitions', language)} | தமிழ்ச் சங்கம்`}
+        title={`${t('competitions', language)} | VetriZen`}
         description="Participate in Tamil literary competitions, win prizes, and showcase your talent."
         keywords={['Tamil Competitions', 'Poetry Contest', 'Story Writing', 'Awards']}
       />
 
       <Breadcrumbs items={breadcrumbs} />
 
-      <div className="mb-12 text-center">
-        <h2 className="text-3xl md:text-5xl font-black font-tamil text-[#3e2b22] dark:text-white mb-4">{t('competitions', language)}</h2>
-        <p className="text-[#8a7060] dark:text-stone-400 text-lg max-w-2xl mx-auto">
+      <div className="mb-16 text-center">
+        <h2 className="text-4xl md:text-6xl font-black font-tamil text-[#2D2D2D] dark:text-white mb-6 tracking-tight">{t('competitions', language)}</h2>
+        <p className="text-[#555555] dark:text-stone-400 text-lg max-w-2xl mx-auto font-medium">
             உங்கள் திறமைகளை வெளிப்படுத்தவும், பரிசுகளை வெல்லவும் ஒரு மேடை.
         </p>
       </div>
 
-      <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
+      <div className="grid gap-10 md:grid-cols-2 lg:grid-cols-3">
         {competitions.map((comp) => (
-            <div key={comp.id} className="group bg-[#fdf8f1]/80 dark:bg-[#1a1a1a] rounded-[2rem] border border-[#eaddcf] dark:border-neutral-800 shadow-xl shadow-stone-200/50 dark:shadow-none overflow-hidden hover:-translate-y-2 transition-all duration-300">
-                <div className="h-48 overflow-hidden relative">
+            <div key={comp.id} className="group bg-white dark:bg-stone-900 rounded-[2rem] border border-stone-200 dark:border-stone-800 shadow-sm overflow-hidden hover:-translate-y-[5px] hover:shadow-[0_20px_40px_rgba(0,0,0,0.06)] transition-all duration-300">
+                <div className="h-52 overflow-hidden relative">
                     <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent z-10"></div>
                     <img 
                         src={comp.imageUrl} 
@@ -55,43 +55,47 @@ export const PotikalView: React.FC<PotikalViewProps> = ({ competitions, language
                         className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
                     />
                     <div className="absolute top-4 right-4 z-20">
-                         <span className={`px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider border ${getStatusColor(comp.status)}`}>
+                         <span className={`px-4 py-1.5 rounded-full text-[11px] font-black uppercase tracking-[0.1em] border backdrop-blur-md ${getStatusColor(comp.status)}`}>
                             {t(comp.status, language)}
                          </span>
                     </div>
                 </div>
 
                 <div className="p-8">
-                    <h3 className="text-xl font-bold font-tamil mb-3 text-[#3e2b22] dark:text-white leading-tight group-hover:text-rose-600 dark:group-hover:text-rose-400 transition-colors">
+                    <h3 className="text-2xl font-bold font-tamil-serif mb-4 text-[#2D2D2D] dark:text-white leading-tight group-hover:text-zen-green transition-colors">
                         {comp.title}
                     </h3>
-                    <p className="text-[#5c4235] dark:text-stone-400 text-sm leading-relaxed mb-6 line-clamp-3">
+                    <p className="text-[#555555] dark:text-stone-400 text-base leading-relaxed mb-8 line-clamp-3">
                         {comp.description}
                     </p>
                     
-                    <div className="space-y-3 mb-8">
-                        <div className="flex items-center text-sm text-[#8a7060] dark:text-stone-400">
-                             <svg className="w-5 h-5 mr-3 text-rose-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
-                             <span className="font-semibold mr-2">{t('deadline', language)}:</span>
-                             {new Date(comp.deadline).toLocaleDateString('ta-IN')}
+                    <div className="space-y-4 mb-10">
+                        <div className="flex items-center text-sm text-[#555555] dark:text-stone-400">
+                             <div className="w-8 h-8 rounded-lg bg-zen-green/5 flex items-center justify-center mr-3 text-zen-green">
+                                <Icon name="calendar" />
+                             </div>
+                             <span className="font-bold mr-2 uppercase tracking-wider text-[11px]">{t('deadline', language)}:</span>
+                             <span className="font-medium">{new Date(comp.deadline).toLocaleDateString('ta-IN', { day: 'numeric', month: 'long', year: 'numeric' })}</span>
                         </div>
-                        <div className="flex items-center text-sm text-[#8a7060] dark:text-stone-400">
-                             <svg className="w-5 h-5 mr-3 text-amber-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
-                             <span className="font-semibold mr-2">{t('prize', language)}:</span>
-                             {comp.prize}
+                        <div className="flex items-center text-sm text-[#555555] dark:text-stone-400">
+                             <div className="w-8 h-8 rounded-lg bg-zen-terracotta/5 flex items-center justify-center mr-3 text-zen-terracotta">
+                                <Icon name="trophy" />
+                             </div>
+                             <span className="font-bold mr-2 uppercase tracking-wider text-[11px]">{t('prize', language)}:</span>
+                             <span className="font-medium">{comp.prize}</span>
                         </div>
                     </div>
 
                     <button 
                         disabled={comp.status === 'completed'}
-                        className={`w-full py-3 rounded-xl font-bold transition-all flex items-center justify-center gap-2 ${
+                        className={`w-full py-4 rounded-xl font-black text-sm uppercase tracking-widest transition-all flex items-center justify-center gap-3 ${
                             comp.status === 'active' 
-                            ? 'bg-rose-600 text-white hover:bg-rose-700 shadow-lg shadow-rose-600/30 hover:shadow-xl' 
-                            : 'bg-[#eaddcf]/30 text-[#8a7060] cursor-not-allowed dark:bg-stone-800 dark:text-stone-600'
+                            ? 'bg-zen-green text-white hover:bg-zen-lightGreen shadow-lg shadow-zen-green/20 active:scale-[0.98]' 
+                            : 'bg-stone-100 text-stone-400 cursor-not-allowed dark:bg-stone-800 dark:text-stone-600'
                         }`}
                     >
-                        {comp.status === 'completed' ? t('completed', language) : t('participate', language)}
-                        {comp.status === 'active' && <Icon name="pen" />}
+                        <span>{comp.status === 'completed' ? t('completed', language) : t('participate', language)}</span>
+                        {comp.status === 'active' && <span className="w-4 h-4"><Icon name="pen" /></span>}
                     </button>
                 </div>
             </div>

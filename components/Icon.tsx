@@ -2,7 +2,7 @@
 import React from 'react';
 
 interface IconProps {
-  name: 'like' | 'comment' | 'share' | 'google' | 'close' | 'home' | 'pen' | 'book' | 'library' | 'plus' | 'collapse' | 'expand' | 'login' | 'language' | 'sun' | 'moon' | 'search' | 'brand-logo' | 'document' | 'arrow-up' | 'trophy' | 'newspaper' | 'book-open' | 'scroll' | 'chevron-left' | 'chevron-right' | 'volume-up' | 'volume-off' | 'quote' | 'school' | 'star' | 'lightning' | 'landmark' | 'linkedin' | 'instagram' | 'youtube' | 'facebook' | 'twitter' | 'edit' | 'collection' | 'archive' | 'bulb' | 'settings' | 'calendar';
+  name: 'like' | 'comment' | 'share' | 'google' | 'close' | 'home' | 'pen' | 'book' | 'library' | 'plus' | 'collapse' | 'expand' | 'login' | 'language' | 'sun' | 'moon' | 'search' | 'brand-logo' | 'document' | 'arrow-up' | 'trophy' | 'newspaper' | 'book-open' | 'scroll' | 'chevron-left' | 'chevron-right' | 'volume-up' | 'volume-off' | 'quote' | 'school' | 'star' | 'lightning' | 'landmark' | 'linkedin' | 'instagram' | 'youtube' | 'facebook' | 'twitter' | 'edit' | 'collection' | 'archive' | 'bulb' | 'settings' | 'calendar' | 'printer' | 'leaf';
   isFilled?: boolean;
 }
 
@@ -71,7 +71,7 @@ export const Icon: React.FC<IconProps> = ({ name, isFilled = false }) => {
     ),
     document: (
         <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
-            <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m2.25 0h9m-9-3h9m-9-3h9m-9-3h9m-9-3h9" />
+            <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m2.25 0h9m-9-3h9m-9-3h9m-9-3h9m-9-3h9m-9-3h9m-9-3h9m-9-3h9" />
         </svg>
     ),
     newspaper: (
@@ -131,10 +131,35 @@ export const Icon: React.FC<IconProps> = ({ name, isFilled = false }) => {
       </svg>
     ),
     'brand-logo': (
-        <svg className="h-8 w-8" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-            <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/>
-            <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/>
-            <text x="13" y="11" fontFamily="Noto Sans Tamil, sans-serif" fontSize="10" fill="currentColor" textAnchor="middle" dominantBaseline="middle" fontWeight="black" stroke="none">அ</text>
+        <svg className="w-full h-full" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+                <linearGradient id="logoGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+                    <stop offset="0%" stopColor="#A5C596" />
+                    <stop offset="60%" stopColor="#648A57" />
+                    <stop offset="100%" stopColor="#2D3A29" />
+                </linearGradient>
+            </defs>
+            {/* Inner Glow / Crescent Effect from original design */}
+            <circle cx="50" cy="55" r="40" fill="url(#logoGradient)" />
+            <path d="M15 45 Q 50 25 85 45" stroke="white" strokeWidth="1.5" opacity="0.3" fill="none" strokeLinecap="round" />
+            
+            {/* The VZ Initials - Simplified but accurate to the image's handwritten look */}
+            <g transform="translate(38, 52) scale(0.6)">
+                <path d="M0 0 L 15 40 L 40 -10" stroke="white" strokeWidth="6" fill="none" strokeLinecap="round" strokeLinejoin="round" />
+                <path d="M50 0 L 80 0 L 50 40 L 85 40" stroke="white" strokeWidth="6" fill="none" strokeLinecap="round" strokeLinejoin="round" />
+            </g>
+            
+            {/* The Sprout on top */}
+            <g transform="translate(50, 18)">
+                 {/* Main stem merging into the orb */}
+                 <path d="M0 0 C 0 -8 0 -8 0 0" stroke="#4A6741" strokeWidth="3" />
+                 {/* Right Leaf */}
+                 <path d="M0 0 Q 8 -15 22 -12 Q 15 -2 0 0" fill="#6B8E61" stroke="#4A6741" strokeWidth="1" />
+                 {/* Left Leaf */}
+                 <path d="M0 0 Q -8 -15 -22 -12 Q -15 -2 0 0" fill="#A5C596" stroke="#4A6741" strokeWidth="1" />
+                 {/* Central Detail line */}
+                 <path d="M0 0 L 0 5" stroke="#4A6741" strokeWidth="2" strokeLinecap="round" />
+            </g>
         </svg>
     ),
     'arrow-up': (
@@ -162,7 +187,23 @@ export const Icon: React.FC<IconProps> = ({ name, isFilled = false }) => {
         <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
             <path strokeLinecap="round" strokeLinejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 012.25-2.25h13.5A2.25 2.25 0 0121 7.5v11.25m-18 0A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75m-18 0v-7.5A2.25 2.25 0 015.25 9h13.5A2.25 2.25 0 0121 11.25v7.5m-9-6h.008v.008H12v-.008zM12 15h.008v.008H12V15zm0 2.25h.008v.008H12v-.008zM9.75 15h.008v.008H9.75V15zm0 2.25h.008v.008H9.75v-.008zM7.5 15h.008v.008H7.5V15zm0 2.25h.008v.008H7.5v-.008zm6.75-4.5h.008v.008H14.25v-.008zm0 2.25h.008v.008H14.25V15zm0 2.25h.008v.008H14.25v-.008zm2.25-4.5h.008v.008H16.5v-.008zm0 2.25h.008v.008H16.5V15z" />
         </svg>
-    )
+    ),
+    printer: (
+      <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+        <path strokeLinecap="round" strokeLinejoin="round" d="M6.75 6.75h10.5a2.25 2.25 0 012.25 2.25v6.75a2.25 2.25 0 01-2.25 2.25H6.75a2.25 2.25 0 01-2.25-2.25V9a2.25 2.25 0 012.25-2.25z" />
+        <path strokeLinecap="round" strokeLinejoin="round" d="M18.75 12h.008v.008h-.008V12zM6.75 15.75v3.375c0 .621.504 1.125 1.125 1.125h8.25c.621 0 1.125-.504 1.125-1.125v-3.375M17.25 6.75V3.375c0-.621-.504-1.125-1.125-1.125h-8.25c-.621 0-1.125.504-1.125 1.125v3.375" />
+      </svg>
+    ),
+    leaf: (
+      <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" viewBox="0 0 24 24" fill="currentColor">
+        <path d="M12 2C12 2 12 10 3 12C3 12 10 12 12 21C12 21 12 13 21 11C21 11 14 11 12 2Z" />
+      </svg>
+    ),
+    linkedin: <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>,
+    instagram: <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 1.366.062 2.633.332 3.608 1.308.975.975 1.245 2.242 1.308 3.608.058 1.266.07 1.646.07 4.85s-.012 3.584-.07 4.85c-.062 1.366-.332 2.633-1.308 3.608-.975.975-2.242 1.245-3.608 1.308-1.266.058-1.646.07-4.85.07s-3.584-.012-4.85-.07c-1.366-.062-2.633-.332-3.608-1.308-.975-.975-1.245-2.242-1.308-3.608-.058-1.266-.07-1.646-.07-4.85s.012-3.584.07-4.85c.062-1.366.332-2.633 1.308-3.608.975-.975 2.242-1.245 3.608-1.308 1.266-.058 1.646-.07 4.85-.07zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948s.014 3.667.072 4.947c.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072s3.667-.014 4.947-.072c4.358-.2 6.78-2.618 6.98-6.98.058-1.281.072-1.689.072-4.947s-.014-3.667-.072-4.947c-.2-4.358-2.618-6.78-6.98-6.98-1.28-.058-1.689-.072-4.948-.072zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>,
+    youtube: <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>,
+    facebook: <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>,
+    twitter: <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M23.953 4.57a10 10 0 01-2.825.775 4.958 4.958 0 002.163-2.723c-.951.555-2.005.959-3.127 1.184a4.92 4.92 0 00-8.384 4.482C7.69 8.095 4.067 6.13 1.64 3.162a4.822 4.822 0 00-.666 2.475c0 1.71.87 3.213 2.188 4.096a4.904 4.904 0 01-2.228-.616v.06a4.923 4.923 0 003.946 4.84 4.996 4.996 0 01-2.212.085 4.936 4.936 0 004.604 3.417 9.867 9.867 0 01-6.102 2.105c-.39 0-.779-.023-1.17-.067a13.995 13.995 0 007.557 2.209c9.053 0 13.998-7.496 13.998-13.985 0-.21 0-.42-.015-.63A9.935 9.935 0 0024 4.59z"/></svg>,
   };
   return icons[name] || null;
 };

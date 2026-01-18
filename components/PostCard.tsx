@@ -7,19 +7,15 @@ interface PostCardProps {
   post: Post;
   onNavigate: (page: 'post' | 'author', id: number) => void;
   currentUser?: User | null;
+  variant?: 'default' | 'minimal' | 'related';
 }
 
-export const PostCard: React.FC<PostCardProps> = ({ post, onNavigate, currentUser }) => {
-  const snippet = post.content.substring(0, 140) + (post.content.length > 140 ? '...' : '');
-  
+export const PostCard: React.FC<PostCardProps> = ({ post, onNavigate, currentUser, variant = 'default' }) => {
   const [isLiked, setIsLiked] = useState(false);
   const [likeCount, setLikeCount] = useState(post.likes);
-  const [isAnimating, setIsAnimating] = useState(false);
 
   const handleLike = (e: React.MouseEvent) => {
     e.stopPropagation();
-    setIsAnimating(true);
-    
     if (isLiked) {
         setLikeCount(prev => prev - 1);
         setIsLiked(false);
@@ -27,7 +23,6 @@ export const PostCard: React.FC<PostCardProps> = ({ post, onNavigate, currentUse
         setLikeCount(prev => prev + 1);
         setIsLiked(true);
     }
-    setTimeout(() => setIsAnimating(false), 300);
   };
 
   const handleAuthorClick = (e: React.MouseEvent) => {
@@ -35,71 +30,118 @@ export const PostCard: React.FC<PostCardProps> = ({ post, onNavigate, currentUse
       onNavigate('author', post.author.id);
   };
   
-  const categoryColors: Record<string, string> = {
-    'கவிதை': 'text-rose-600 dark:text-rose-400',
-    'கட்டுரை': 'text-blue-600 dark:text-blue-400',
-    'மேற்கோள்': 'text-amber-600 dark:text-amber-400',
-    'கதை': 'text-emerald-600 dark:text-emerald-400',
-    'பொன்மொழி': 'text-yellow-600 dark:text-yellow-400',
-    'ஊக்கம்': 'text-purple-600 dark:text-purple-400',
-    'வரலாறு': 'text-orange-600 dark:text-orange-400',
-    'பழமொழி': 'text-cyan-600 dark:text-cyan-400',
-  };
-  
-  const accentColor = categoryColors[post.category] || 'text-stone-500';
+  const formattedDate = new Date(post.createdAt).toLocaleDateString('ta-IN', { 
+    month: 'short', 
+    day: 'numeric', 
+    year: 'numeric' 
+  });
 
-  const authorName = post.author.name;
-  const isLongName = authorName.length > 10;
-  const displayAuthorName = isLongName ? `${authorName.substring(0, 10)}...` : authorName;
+  if (variant === 'related') {
+      return (
+        <article 
+          onClick={() => onNavigate('post', post.id)}
+          className="group bg-white dark:bg-stone-900 p-7 rounded-[20px] shadow-[0_4px_15px_rgba(0,0,0,0.04)] hover:bg-stone-50 dark:hover:bg-stone-800/50 transition-all duration-300 cursor-pointer flex flex-col h-full border border-stone-100 dark:border-stone-800"
+        >
+            <h4 className="text-[19px] font-bold font-tamil-serif text-zen-green mb-5 line-clamp-2 leading-snug">
+                {post.title}
+            </h4>
+            <div className="mt-auto flex flex-col gap-1">
+                <span className="text-[12px] font-medium text-[#555555] dark:text-stone-400 uppercase tracking-wider">
+                    {post.author.name}
+                </span>
+                <span className="text-[11px] text-stone-400 font-normal">
+                    {formattedDate}
+                </span>
+            </div>
+        </article>
+      );
+  }
+
+  if (variant === 'minimal') {
+      return (
+        <article 
+          onClick={() => onNavigate('post', post.id)}
+          className="group relative bg-white dark:bg-stone-900 border border-stone-100 dark:border-stone-800 p-10 rounded-[20px] shadow-[0_4px_20px_rgba(0,0,0,0.03)] hover:shadow-[0_12px_40px_rgba(0,0,0,0.06)] hover:-translate-y-1.5 transition-all duration-500 cursor-pointer flex flex-col"
+        >
+            <div className="flex-grow">
+                <h3 className="text-2xl font-bold font-tamil-serif text-zen-green mb-5 group-hover:text-zen-lightGreen transition-colors duration-500">
+                    {post.title}
+                </h3>
+                <p className="text-stone-500 dark:text-stone-400 font-tamil-serif text-lg leading-[2.0] line-clamp-2 italic group-hover:text-stone-700 dark:group-hover:text-stone-200 transition-colors duration-500">
+                    {post.content}
+                </p>
+            </div>
+            
+            <div className="flex items-center gap-2 mt-3 text-[14px] text-[#555555] dark:text-stone-400">
+                <span 
+                    className="font-medium hover:text-[#5A7D5B] hover:underline hover:decoration-[#5A7D5B]/30 transition-all duration-300 cursor-pointer uppercase tracking-[0.12em]"
+                    onClick={handleAuthorClick}
+                >
+                    {post.author.name}
+                </span>
+                <span className="opacity-40 font-sans text-xs select-none">•</span>
+                <span className="font-normal uppercase tracking-[0.12em]">
+                    {formattedDate}
+                </span>
+            </div>
+        </article>
+      );
+  }
+
+  const snippet = post.content.substring(0, 160) + (post.content.length > 160 ? '...' : '');
 
   return (
     <article 
       onClick={() => onNavigate('post', post.id)}
-      className="group relative bg-[#fdf8f1] dark:bg-gradient-to-br dark:from-[#2b221e] dark:to-[#201a17] rounded-[2rem] p-6 sm:p-8 border border-[#eaddcf] dark:border-[#4a3b32] hover:border-rose-300 dark:hover:border-rose-700/50 transition-all duration-500 hover:shadow-[0_20px_40px_rgb(0,0,0,0.08)] dark:hover:shadow-[0_20px_40px_rgb(0,0,0,0.4)] hover:-translate-y-2 cursor-pointer flex flex-col h-full overflow-hidden"
+      className="group relative bg-white dark:bg-stone-900 border-b border-stone-200 dark:border-stone-800 pb-12 p-8 rounded-3xl shadow-sm hover:shadow-md transition-all duration-300 cursor-pointer flex flex-col h-full"
     >
-      <div className="flex items-center justify-between mb-4 relative z-10">
-        <span className={`text-xs font-bold tracking-widest uppercase flex items-center gap-2 ${accentColor}`}>
-           <span className="w-1.5 h-1.5 rounded-full bg-current"></span>
+      <div className="flex items-center gap-3 mb-6">
+        <span className="text-[10px] font-bold tracking-widest uppercase text-zen-green/60">
            {post.category}
-        </span>
-        <span className="text-[10px] font-bold text-stone-400 uppercase tracking-wider">
-            {new Date(post.createdAt).toLocaleDateString('ta-IN', { month: 'short', day: 'numeric' })}
         </span>
       </div>
 
-      <div className="flex-grow mb-6 relative z-10">
-         <h3 className="text-xl font-bold font-tamil mb-3 text-[#3e2b22] dark:text-[#edeadd] leading-snug group-hover:text-rose-700 dark:group-hover:text-rose-400 transition-colors duration-300">
+      <div className="flex-grow">
+         <h3 className="text-3xl sm:text-4xl font-bold font-tamil-serif mb-6 text-stone-900 dark:text-stone-100 leading-tight group-hover:text-zen-green transition-colors duration-500">
             {post.title}
          </h3>
-         <p className="text-[#5c4235] dark:text-[#a89f91] font-tamil text-base leading-relaxed line-clamp-3">
+         <p className="text-stone-600 dark:text-stone-400 font-tamil-serif text-lg sm:text-xl leading-relaxed line-clamp-4 italic">
             {snippet}
          </p>
       </div>
 
-      <div className="h-px w-full bg-[#eaddcf] dark:bg-[#3e2b22] mb-5"></div>
-
-      <div className="flex items-center justify-between relative z-10">
-        <div 
-            className="flex items-center gap-2 group/author hover:bg-rose-50 dark:hover:bg-white/5 p-1 rounded-full pr-3 transition-colors"
-            onClick={handleAuthorClick}
-        >
-             <img src={post.author.avatarUrl} alt={post.author.name} className="w-7 h-7 rounded-full object-cover ring-1 ring-[#eaddcf]" />
-             <span className="text-xs font-bold text-[#5c4235] dark:text-[#d6cbb8] group-hover/author:text-rose-600">{displayAuthorName}</span>
+      <div className="flex items-center justify-between mt-3">
+        <div className="flex items-center gap-3">
+             <img 
+                src={post.author.avatarUrl} 
+                alt={post.author.name} 
+                className="w-8 h-8 rounded-full object-cover grayscale opacity-80 group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-500" 
+             />
+             <div className="flex items-center gap-2 text-[14px] text-[#555555] dark:text-stone-400">
+                <span 
+                    className="font-medium hover:text-[#5A7D5B] hover:underline hover:decoration-[#5A7D5B]/30 transition-all duration-300 cursor-pointer uppercase tracking-wider"
+                    onClick={handleAuthorClick}
+                >
+                    {post.author.name}
+                </span>
+                <span className="opacity-40 font-sans text-xs select-none">•</span>
+                <span className="font-normal uppercase tracking-wider">
+                    {formattedDate}
+                </span>
+             </div>
         </div>
 
-        <div className="flex items-center gap-3 text-stone-400 text-xs">
+        <div className="flex items-center gap-6 text-stone-400 text-xs">
             <button 
                 onClick={handleLike}
-                className={`flex items-center gap-1 ${isLiked ? 'text-rose-600' : 'hover:text-rose-600'}`}
+                className={`flex items-center gap-1.5 transition-colors ${isLiked ? 'text-zen-terracotta' : 'hover:text-zen-green'}`}
             >
-                <div className={`${isAnimating ? 'scale-125' : ''} transition-transform`}>
-                    <Icon name="like" isFilled={isLiked} />
-                </div>
-                <span>{likeCount}</span>
+                <Icon name="like" isFilled={isLiked} />
+                <span className="font-bold">{likeCount}</span>
             </button>
-            <div className="flex items-center gap-1">
+            <div className="flex items-center gap-1.5">
                 <Icon name="comment" />
-                <span>{post.comments.length}</span>
+                <span className="font-bold">{post.comments.length}</span>
             </div>
         </div>
       </div>

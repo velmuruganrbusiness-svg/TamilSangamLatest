@@ -15,8 +15,10 @@ interface ClassicsViewProps {
 const ReadingSettings: React.FC<{ 
     fontSize: 'text-lg' | 'text-xl' | 'text-2xl' | 'text-3xl'; 
     setFontSize: (size: 'text-lg' | 'text-xl' | 'text-2xl' | 'text-3xl') => void;
+    viewMode: 'scroll' | 'book' | 'olai';
+    setViewMode: (mode: 'scroll' | 'book' | 'olai') => void;
     language: Language;
-}> = ({ fontSize, setFontSize, language }) => {
+}> = ({ fontSize, setFontSize, viewMode, setViewMode, language }) => {
     const [isOpen, setIsOpen] = useState(false);
     const ref = useRef<HTMLDivElement>(null);
 
@@ -41,7 +43,16 @@ const ReadingSettings: React.FC<{
             </button>
             
             {isOpen && (
-                <div className="absolute right-0 mt-2 w-64 bg-[#fdf8f1] dark:bg-[#1a1a1a] rounded-2xl shadow-xl border border-[#eaddcf] dark:border-neutral-800 p-4 z-50 animate-fade-in">
+                <div className="absolute right-0 mt-2 w-72 bg-[#fdf8f1] dark:bg-[#1a1a1a] rounded-2xl shadow-xl border border-[#eaddcf] dark:border-neutral-800 p-6 z-50 animate-fade-in">
+                    <div className="mb-6">
+                        <label className="text-xs font-bold text-[#8a7060] uppercase tracking-widest block mb-3">வாசிப்பு முறை (Reading Mode)</label>
+                        <div className="grid grid-cols-1 gap-2">
+                             <button onClick={() => setViewMode('scroll')} className={`w-full text-left px-4 py-2 rounded-xl text-sm font-bold border transition-all ${viewMode === 'scroll' ? 'bg-rose-600 border-rose-600 text-white' : 'bg-white dark:bg-neutral-800 border-[#eaddcf] dark:border-neutral-700 text-[#8a7060]'}`}>உருள் முறை (Scroll)</button>
+                             <button onClick={() => setViewMode('book')} className={`w-full text-left px-4 py-2 rounded-xl text-sm font-bold border transition-all ${viewMode === 'book' ? 'bg-rose-600 border-rose-600 text-white' : 'bg-white dark:bg-neutral-800 border-[#eaddcf] dark:border-neutral-700 text-[#8a7060]'}`}>புத்தக முறை (Book)</button>
+                             <button onClick={() => setViewMode('olai')} className={`w-full text-left px-4 py-2 rounded-xl text-sm font-bold border transition-all ${viewMode === 'olai' ? 'bg-amber-600 border-amber-600 text-white' : 'bg-white dark:bg-neutral-800 border-[#eaddcf] dark:border-neutral-700 text-[#8a7060]'}`}>ஓலைச்சுவடி முறை (Palm Leaf)</button>
+                        </div>
+                    </div>
+
                     <div className="mb-4">
                         <label className="text-xs font-bold text-[#8a7060] uppercase tracking-wider block mb-2">{t('fontSize', language)}</label>
                         <div className="flex items-center justify-between bg-white/50 dark:bg-neutral-800 rounded-lg p-1 border border-[#eaddcf]/50">
@@ -66,7 +77,7 @@ const VerseDisplay: React.FC<{
     chapter: ClassicalChapter, 
     workTitle: string, 
     language: Language,
-    viewMode: 'scroll' | 'book',
+    viewMode: 'scroll' | 'book' | 'olai',
     isSoundEnabled: boolean,
     fontSize: 'text-lg' | 'text-xl' | 'text-2xl' | 'text-3xl'
 }> = ({ chapter, workTitle, language, viewMode, isSoundEnabled, fontSize }) => {
@@ -107,6 +118,31 @@ const VerseDisplay: React.FC<{
             noise.stop(ctx.currentTime + 0.3);
         } catch (e) {}
     };
+
+    if (viewMode === 'olai') {
+        return (
+            <div className="animate-fade-in pb-20 px-4">
+                 <div className="max-w-4xl mx-auto space-y-12">
+                     {chapter.verses.map((verse, idx) => (
+                         <div key={idx} className="olai-container group animate-fade-in-up" style={{ animationDelay: `${idx * 150}ms` }}>
+                             <div className="olai-hole"></div>
+                             <div className="olai-hole" style={{ left: 'auto', right: '30px' }}></div>
+                             <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-b from-black/5 via-transparent to-black/5 pointer-events-none"></div>
+                             <div className="relative z-10 text-center">
+                                 <span className="block text-[10px] font-bold text-[#8b4513]/40 uppercase tracking-widest mb-4">சுவடி எண்: {idx + 1}</span>
+                                 <p className={`font-tamil olai-text font-bold ${fontSize === 'text-lg' ? 'text-xl' : fontSize === 'text-xl' ? 'text-2xl' : fontSize === 'text-2xl' ? 'text-3xl' : 'text-4xl'}`}>{verse.text}</p>
+                                 {verse.explanation && (
+                                     <div className="mt-8 pt-4 border-t border-[#8b4513]/10">
+                                         <p className="font-tamil text-[#8b4513]/80 italic text-sm">{verse.explanation}</p>
+                                     </div>
+                                 )}
+                             </div>
+                         </div>
+                     ))}
+                 </div>
+            </div>
+        );
+    }
 
     return (
         <div className="animate-fade-in pb-20">
@@ -233,9 +269,14 @@ export const ClassicsView: React.FC<ClassicsViewProps> = ({ works, language, sel
   const [viewStage, setViewStage] = useState<'intro' | 'sections' | 'chapters' | 'verses'>('intro');
   const [selectedSection, setSelectedSection] = useState<ClassicalSection | null>(null);
   const [selectedChapter, setSelectedChapter] = useState<ClassicalChapter | null>(null);
-  const [viewMode, setViewMode] = useState<'scroll' | 'book'>('scroll');
+  const [viewMode, setViewMode] = useState<'scroll' | 'book' | 'olai'>('scroll');
   const [isSoundEnabled, setIsSoundEnabled] = useState(true);
+  const [isAmbientEnabled, setIsAmbientEnabled] = useState(false);
   const [fontSize, setFontSize] = useState<'text-lg' | 'text-xl' | 'text-2xl' | 'text-3xl'>('text-xl');
+  
+  const audioContextRef = useRef<AudioContext | null>(null);
+  const oscillatorRef = useRef<OscillatorNode | null>(null);
+  const gainRef = useRef<GainNode | null>(null);
 
   const selectedWork = works.find(w => w.id === selectedWorkId);
 
@@ -243,7 +284,70 @@ export const ClassicsView: React.FC<ClassicsViewProps> = ({ works, language, sel
       setViewStage('intro');
       setSelectedSection(null);
       setSelectedChapter(null);
+      stopAmbient();
   }, [selectedWorkId]);
+
+  // Ambient Sound Logic based on Section/Work Mood
+  useEffect(() => {
+      if (isAmbientEnabled && viewStage === 'verses') {
+          startAmbient();
+      } else {
+          stopAmbient();
+      }
+      return () => stopAmbient();
+  }, [isAmbientEnabled, viewStage, selectedSection]);
+
+  const startAmbient = () => {
+    try {
+        if (!audioContextRef.current) {
+            audioContextRef.current = new (window.AudioContext || (window as any).webkitAudioContext)();
+        }
+        const ctx = audioContextRef.current;
+        if (ctx.state === 'suspended') ctx.resume();
+
+        stopAmbient();
+
+        const gain = ctx.createGain();
+        gain.gain.setValueAtTime(0, ctx.currentTime);
+        gain.gain.linearRampToValueAtTime(0.02, ctx.currentTime + 2); // Soft volume
+
+        // Base frequency determined by section mood
+        // Aram = Solemn/Deep (Low freq), Inbam = Soft/High (Higher freq), Porul = Rhythmic
+        let freq = 220; // A3
+        if (selectedSection?.id === 'inbam') freq = 440; // A4 for flute-like feel
+        if (selectedSection?.id === 'porul') freq = 330; // E4 for active feel
+        if (selectedWork?.id === 'aathichoodi') freq = 392; // G4 child-like bright
+
+        const osc = ctx.createOscillator();
+        osc.type = selectedSection?.id === 'inbam' ? 'sine' : 'triangle';
+        osc.frequency.setValueAtTime(freq, ctx.currentTime);
+        
+        // Simple procedural melody simulation
+        const lfo = ctx.createOscillator();
+        lfo.frequency.value = 0.5;
+        const lfoGain = ctx.createGain();
+        lfoGain.gain.value = 5;
+        lfo.connect(lfoGain);
+        lfoGain.connect(osc.frequency);
+        lfo.start();
+
+        osc.connect(gain);
+        gain.connect(ctx.destination);
+        osc.start();
+
+        oscillatorRef.current = osc;
+        gainRef.current = gain;
+    } catch (e) {
+        console.error("Audio error", e);
+    }
+  };
+
+  const stopAmbient = () => {
+      if (oscillatorRef.current) {
+          oscillatorRef.current.stop();
+          oscillatorRef.current = null;
+      }
+  };
 
   if (!selectedWorkId || !selectedWork) {
       return <div className="text-center py-20 font-tamil text-[#8a7060]">நூலைத் தேர்ந்தெடுக்கவும்</div>;
@@ -260,7 +364,7 @@ export const ClassicsView: React.FC<ClassicsViewProps> = ({ works, language, sel
       if (viewStage !== 'intro') {
           if (hasSections) {
               items.push({ label: 'பகுப்புகள்', onClick: () => { setViewStage('sections'); setSelectedSection(null); setSelectedChapter(null); }, active: viewStage === 'sections' });
-              if (selectedSection) items.push({ label: selectedSection.title, onClick: () => { setViewStage('chapters'); setSelectedChapter(null); }, active: viewStage === 'chapters' });
+              if (selectedSection) items.push({ label: sectionToTitle(selectedSection.id), onClick: () => { setViewStage('chapters'); setSelectedChapter(null); }, active: viewStage === 'chapters' });
           } else {
               items.push({ label: 'அதிகாரங்கள்', onClick: () => { setViewStage('chapters'); setSelectedChapter(null); }, active: viewStage === 'chapters' });
           }
@@ -268,6 +372,11 @@ export const ClassicsView: React.FC<ClassicsViewProps> = ({ works, language, sel
       }
       return items;
   };
+
+  const sectionToTitle = (id: string) => {
+      const s = selectedWork.sections?.find(s => s.id === id);
+      return s ? s.title : id;
+  }
 
   return (
     <div className="max-w-7xl mx-auto">
@@ -278,14 +387,16 @@ export const ClassicsView: React.FC<ClassicsViewProps> = ({ works, language, sel
              <Breadcrumbs items={getBreadcrumbs()} />
              {viewStage === 'verses' && (
                 <div className="flex items-center gap-2 order-3 sm:order-2 ml-auto sm:ml-0">
-                     <div className="flex items-center bg-[#eaddcf]/30 dark:bg-neutral-800 rounded-full p-1 border border-[#eaddcf]/50 dark:border-neutral-700">
-                         <button onClick={() => setViewMode('scroll')} className={`flex items-center space-x-2 px-4 py-1.5 rounded-full text-sm font-medium transition-all ${viewMode === 'scroll' ? 'bg-white text-[#3e2b22] shadow-sm dark:bg-[#2b2b2b] dark:text-white' : 'text-[#8a7060] hover:text-[#3e2b22] dark:text-stone-400'}`} title={t('scrollMode', language)}><Icon name="scroll" /><span className="hidden sm:inline">{t('scrollMode', language)}</span></button>
-                         <button onClick={() => setViewMode('book')} className={`flex items-center space-x-2 px-4 py-1.5 rounded-full text-sm font-medium transition-all ${viewMode === 'book' ? 'bg-white text-[#3e2b22] shadow-sm dark:bg-[#2b2b2b] dark:text-white' : 'text-[#8a7060] hover:text-[#3e2b22] dark:text-stone-400'}`} title={t('bookMode', language)}><Icon name="book-open" /><span className="hidden sm:inline">{t('bookMode', language)}</span></button>
-                    </div>
-                    {viewMode === 'book' && (
-                         <button onClick={() => setIsSoundEnabled(!isSoundEnabled)} className={`p-2 rounded-full border transition-all ${isSoundEnabled ? 'bg-white text-rose-600 border-rose-200 shadow-sm dark:bg-[#2b2b2b] dark:text-rose-400 dark:border-neutral-700' : 'bg-[#eaddcf]/30 text-stone-400 border-[#eaddcf] dark:bg-[#1a1a1a] dark:text-stone-600 dark:border-neutral-800'}`} title={isSoundEnabled ? t('soundOn', language) : t('soundOff', language)}><Icon name={isSoundEnabled ? 'volume-up' : 'volume-off'} /></button>
-                    )}
-                    <ReadingSettings fontSize={fontSize} setFontSize={setFontSize} language={language} />
+                    <button 
+                        onClick={() => setIsAmbientEnabled(!isAmbientEnabled)} 
+                        className={`flex items-center gap-2 px-4 py-1.5 rounded-full border text-xs font-bold transition-all ${isAmbientEnabled ? 'bg-amber-50 border-amber-200 text-amber-700 shadow-sm' : 'bg-white/50 text-stone-400 border-stone-200'}`}
+                        title="பின்னணி இசை (Ambient Sound)"
+                    >
+                         <Icon name="bulb" />
+                         <span className="hidden md:inline">{isAmbientEnabled ? 'இசை ஒலிக்கிறது' : 'இசை அணைக்கப்பட்டது'}</span>
+                    </button>
+
+                    <ReadingSettings fontSize={fontSize} setFontSize={setFontSize} viewMode={viewMode} setViewMode={setViewMode} language={language} />
                 </div>
              )}
         </div>

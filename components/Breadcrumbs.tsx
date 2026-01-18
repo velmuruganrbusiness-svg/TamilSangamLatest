@@ -14,24 +14,30 @@ interface BreadcrumbsProps {
 }
 
 export const Breadcrumbs: React.FC<BreadcrumbsProps> = ({ items }) => (
-  <nav className="flex items-center text-sm font-medium font-tamil overflow-x-auto whitespace-nowrap no-scrollbar mb-6 px-1">
+  <nav className="flex items-center text-sm font-sans overflow-x-auto whitespace-nowrap no-scrollbar mb-8 px-1" aria-label="Breadcrumb">
     {items.map((item, index) => (
       <React.Fragment key={index}>
         {index > 0 && (
-          <span className="text-[#8a7060]/40 dark:text-[#a89f91]/30 mx-2">/</span>
+          <span className="text-stone-300 dark:text-stone-700 mx-3 select-none" aria-hidden="true">/</span>
         )}
-        <button
-          onClick={item.onClick}
-          disabled={item.active || !item.onClick}
-          className={`transition-all duration-200 flex items-center gap-1.5 py-1 px-2 rounded-lg ${
-            item.active 
-            ? 'text-[#3e2b22] dark:text-[#edeadd] font-bold cursor-default bg-[#eaddcf]/30 dark:bg-[#3e2b22]/30' 
-            : 'text-[#8a7060] hover:text-rose-600 dark:text-[#a89f91] dark:hover:text-rose-400 hover:bg-white/50 dark:hover:bg-black/20'
-          }`}
-        >
-          {item.icon && <Icon name={item.icon as any} />}
-          <span>{item.label}</span>
-        </button>
+        
+        {item.active ? (
+          <span className="text-stone-700 dark:text-stone-300 font-bold py-1 px-2">
+            {item.label}
+          </span>
+        ) : (
+          <button
+            onClick={item.onClick}
+            className="text-stone-500 dark:text-stone-400 hover:text-zen-green dark:hover:text-zen-green transition-colors duration-300 flex items-center gap-1.5 py-1 px-2 rounded-md cursor-pointer outline-none focus:ring-1 focus:ring-zen-green/20"
+          >
+            {item.icon && (
+              <span className="w-3.5 h-3.5 opacity-70">
+                <Icon name={item.icon as any} />
+              </span>
+            )}
+            <span>{item.label}</span>
+          </button>
+        )}
       </React.Fragment>
     ))}
   </nav>

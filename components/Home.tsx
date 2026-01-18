@@ -1,5 +1,5 @@
 
-import React from 'react';
+import React, { useState, useMemo } from 'react';
 import type { Post, Category, User } from '../types';
 import { PostCard } from './PostCard';
 import { t, Language } from '../utils/translations';
@@ -20,54 +20,82 @@ interface HomeProps {
   selectedAuthor?: User;
 }
 
+const VisionSection: React.FC = () => (
+    <div className="text-center py-16 animate-subtle-fade px-4">
+        <p className="text-lg md:text-xl font-tamil text-stone-700 dark:text-stone-300 leading-loose max-w-3xl mx-auto italic">
+            "வெற்றிஜென் (VetriZen) என்பது ஒரு டிஜிட்டல் நந்தவனம். பரபரப்பான உலகில், அமைதியான சூழலில் படைப்புகளைப் படிக்கவும் பகிரவும் உருவாக்கப்பட்ட ஒரு தளம்."
+        </p>
+    </div>
+);
+
+const FeaturePillars: React.FC = () => (
+    <div className="max-w-4xl mx-auto px-4 py-16 animate-subtle-fade">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-12 md:gap-8 border-y border-stone-200/50 dark:border-stone-800/50 py-16">
+            <div className="text-center md:text-left">
+                <h4 className="text-2xl font-bold font-tamil text-zen-green mb-4 leading-relaxed">தடையற்ற வாசிப்பு</h4>
+                <p className="text-stone-500 dark:text-stone-400 text-base leading-relaxed">
+                    விளம்பரங்கள் மற்றும் கவனச்சிதறல்கள் அற்ற தூய்மையான வாசிப்பு அனுபவம்.
+                </p>
+            </div>
+            <div className="text-center md:text-left">
+                <h4 className="text-2xl font-bold font-tamil text-zen-green mb-4 leading-relaxed">தரமான படைப்புகள்</h4>
+                <p className="text-stone-500 dark:text-stone-400 text-base leading-relaxed">
+                    ஆழமான சிந்தனைகள் மற்றும் கவிதைகளுக்கான பிரத்யேகத் தளம்.
+                </p>
+            </div>
+            <div className="text-center md:text-left">
+                <h4 className="text-2xl font-bold font-tamil text-zen-green mb-4 leading-relaxed">எழுத்தாளர்களின் சங்கமம்</h4>
+                <p className="text-stone-500 dark:text-stone-400 text-base leading-relaxed">
+                    படைப்பாளிகள் தங்களின் எழுத்துப் பயணத்தை அமைதியாகத் தொடங்கும் இடம்.
+                </p>
+            </div>
+        </div>
+    </div>
+);
+
 const WordOfTheDay: React.FC<{ language: Language }> = ({ language }) => (
-    <div className="mb-10 px-2 animate-fade-in">
-        <div className="bg-gradient-to-r from-rose-50/80 to-[#fdf8f1]/80 dark:from-[#2b1d16] dark:to-[#1a1a1a] rounded-[2rem] border border-[#eaddcf] dark:border-neutral-800 p-6 md:p-8 flex flex-col md:flex-row items-center justify-between shadow-sm relative overflow-hidden">
-            <div className="absolute top-0 right-0 -mt-10 -mr-10 w-40 h-40 bg-rose-100 dark:bg-rose-900/20 rounded-full blur-3xl opacity-50"></div>
-            
-            <div className="relative z-10 w-full md:w-2/3">
-                <div className="flex items-center gap-2 mb-2 text-rose-600 dark:text-rose-400">
-                    <Icon name="calendar" />
-                    <span className="text-xs font-bold uppercase tracking-widest">{t('wordOfTheDay', language)}</span>
-                </div>
-                <h3 className="text-4xl font-black font-tamil text-[#3e2b22] dark:text-white mb-2">அறம்</h3>
-                <p className="text-[#8a7060] dark:text-stone-400 font-medium text-lg mb-4">{t('meaning', language)}: Dharma / Virtue / Righteousness</p>
-                <div className="bg-white/80 dark:bg-neutral-800 rounded-xl p-4 border border-[#eaddcf]/50 dark:border-neutral-700 shadow-sm inline-block w-full">
-                    <p className="font-tamil text-[#5c4235] dark:text-stone-300 italic">
-                        "அறம் செய விரும்பு" - ஔவையார்
-                    </p>
-                </div>
+    <div className="py-16 flex justify-center animate-subtle-fade w-full">
+        <div className="bg-white dark:bg-stone-900 rounded-[2.5rem] p-8 md:p-14 shadow-[0_12px_45px_rgba(0,0,0,0.04)] text-center relative overflow-hidden group border border-stone-100 dark:border-stone-800 w-[90%] sm:w-[85%] md:max-w-3xl">
+            <div className="flex items-center justify-center gap-2 mb-6 text-stone-500 dark:text-stone-500">
+                <Icon name="calendar" />
+                <span className="text-[10px] font-bold uppercase tracking-[0.2em]">{t('wordOfTheDay', language)}</span>
             </div>
             
-            <div className="relative z-10 hidden md:flex w-1/3 justify-end opacity-20 dark:opacity-10">
-                <Icon name="brand-logo" />
+            <h3 className="text-5xl md:text-7xl font-bold font-tamil-serif text-stone-900 dark:text-stone-100 mb-4 leading-[1.3]">அறம்</h3>
+            <p className="text-base md:text-xl text-stone-500 dark:text-stone-500 font-serif italic mb-10">
+                {t('meaning', language)}: Dharma / Virtue / Righteousness
+            </p>
+            
+            <div className="max-w-md mx-auto pt-8 border-t border-stone-50 dark:border-stone-800">
+                <p className="font-tamil text-lg md:text-2xl text-stone-700 dark:text-stone-300 leading-relaxed italic">
+                    "அறம் செய விரும்பு"
+                </p>
+                <p className="text-stone-500 dark:text-stone-500 mt-3 font-serif text-sm">— ஔவையார்</p>
             </div>
         </div>
     </div>
 );
 
 const AuthorProfile: React.FC<{ author: User; postCount: number }> = ({ author, postCount }) => (
-    <div className="mb-10 px-2 animate-fade-in">
-        <div className="bg-[#fdf8f1]/80 dark:bg-[#1a1a1a] rounded-[2.5rem] border border-[#eaddcf] dark:border-neutral-800 p-8 flex flex-col md:flex-row items-center gap-8 shadow-xl shadow-stone-200/40 dark:shadow-none relative overflow-hidden">
-             <div className="absolute top-0 left-0 w-full h-32 bg-gradient-to-b from-white/20 to-transparent dark:from-[#2b221e] dark:to-transparent opacity-50 pointer-events-none"></div>
-
+    <div className="mb-16 px-2 animate-subtle-fade max-w-4xl mx-auto">
+        <div className="bg-white dark:bg-stone-900 rounded-[2rem] border border-stone-200 dark:border-stone-800 p-10 flex flex-col md:flex-row items-center gap-10 shadow-sm">
              <div className="relative z-10 flex-shrink-0">
-                 <div className="p-1 rounded-full bg-white dark:bg-[#1a1a1a] border-4 border-[#eaddcf] dark:border-[#2b221e] shadow-lg">
-                    <img src={author.avatarUrl} alt={author.name} className="w-32 h-32 rounded-full object-cover" />
+                 <div className="p-1.5 rounded-full bg-bone dark:bg-stone-900 border-4 border-zen-green/20 shadow-xl">
+                    <img src={author.avatarUrl} alt={author.name} className="w-32 h-32 rounded-full object-cover grayscale-[0.5] hover:grayscale-0 transition-all duration-700" />
                  </div>
              </div>
              
              <div className="relative z-10 text-center md:text-left">
-                 <h2 className="text-3xl md:text-4xl font-black font-tamil text-[#3e2b22] dark:text-white mb-2">{author.name}</h2>
-                 <div className="flex items-center justify-center md:justify-start gap-4 mb-4">
-                     <span className="px-4 py-1.5 rounded-full bg-[#eaddcf]/30 dark:bg-neutral-800 text-[#5c4235] dark:text-stone-300 text-sm font-bold">
-                         {postCount} படைப்புகள்
+                 <h2 className="text-4xl font-bold font-tamil text-stone-900 dark:text-stone-100 mb-3 leading-snug">{author.name}</h2>
+                 <div className="flex items-center justify-center md:justify-start gap-4 mb-6">
+                     <span className="px-4 py-1 rounded-full bg-stone-100 dark:bg-stone-800 text-stone-600 dark:text-stone-400 text-xs font-bold uppercase tracking-widest">
+                         {postCount} {t('posts', 'en')}
                      </span>
-                     <span className="px-4 py-1.5 rounded-full bg-rose-50 dark:bg-rose-900/20 text-rose-600 dark:text-rose-400 text-sm font-bold">
+                     <span className="px-4 py-1 rounded-full bg-zen-green/10 text-zen-green text-xs font-bold uppercase tracking-widest">
                          ஆசிரியர்
                      </span>
                  </div>
-                 <p className="text-[#8a7060] dark:text-stone-400 max-w-xl font-medium">
+                 <p className="text-stone-600 dark:text-stone-400 font-serif max-w-xl text-lg leading-relaxed italic">
                      தமிழ் இலக்கியத்திற்குத் தன் எழுத்துக்களால் வளம் சேர்க்கும் படைப்பாளி.
                  </p>
              </div>
@@ -86,117 +114,145 @@ export const Home: React.FC<HomeProps> = ({
     isLoading = false,
     selectedAuthor
 }) => {
+    const [subFilter, setSubFilter] = useState<string | null>(null);
     
-    let pageTitle = "தமிழ்ச் சங்கம் - Tamil Sangam";
+    let pageTitle = "VetriZen - Success in Simplicity";
     let pageDescription = t('subTagline', language);
-    let pageKeywords = ['Tamil', 'Literature', 'Stories', 'Poems'];
+
+    const isRootHome = !category && !searchQuery && !selectedAuthor;
+    const isPoemCategory = category === 'கவிதை';
 
     const breadcrumbs = [];
-    if (category || selectedAuthor || searchQuery) {
+    if (!isRootHome) {
         breadcrumbs.push({ label: t('home', language), onClick: () => onNavigate('home'), icon: 'home' as const });
     }
 
     if (category) {
-        pageTitle = `${category} | தமிழ்ச் சங்கம்`;
-        pageDescription = `${t('latestPosts', language)} - ${category}`;
-        pageKeywords.push(category);
-        breadcrumbs.push({ label: t('creations', language), icon: 'collection' as const });
+        pageTitle = `${category} | VetriZen`;
         breadcrumbs.push({ label: category, active: true });
     } else if (selectedAuthor) {
-        pageTitle = `${selectedAuthor.name} | தமிழ்ச் சங்கம்`;
+        pageTitle = `${selectedAuthor.name} | VetriZen`;
         breadcrumbs.push({ label: selectedAuthor.name, active: true });
     } else if (searchQuery) {
-        pageTitle = `Search: ${searchQuery} | தமிழ்ச் சங்கம்`;
-        breadcrumbs.push({ label: t('searchResultsFor', language).replace('{query}', ''), active: true });
+        pageTitle = `Search: ${searchQuery} | VetriZen`;
+        breadcrumbs.push({ label: t('searchResultsFor', language).replace('{query}', searchQuery), active: true });
     }
 
-  return (
-    <div className="max-w-7xl mx-auto min-h-[calc(100vh-200px)]">
-      <SEO title={pageTitle} description={pageDescription} keywords={pageKeywords} />
-
-      {breadcrumbs.length > 0 && <Breadcrumbs items={breadcrumbs} />}
-
-      {!searchQuery && !category && !selectedAuthor && (
-        <div className="text-center pt-10 pb-8 md:pt-16 md:pb-10 animate-fade-in">
-          <h2 className="text-4xl md:text-6xl font-black font-tamil mb-6 text-[#3e2b22] dark:text-white leading-tight tracking-tight">
-            {t('tagline', language)}
-          </h2>
-          <p className="text-lg md:text-xl text-[#8a7060] dark:text-stone-400 max-w-2xl mx-auto font-medium leading-relaxed">
-            {t('subTagline', language)}
-          </p>
-        </div>
-      )}
-
-      {category && (
-          <div className="sticky top-24 z-20 px-2 mb-6 animate-fade-in">
-            <div className="relative max-w-2xl mx-auto group">
-                <input
-                    type="text"
-                    className="block w-full pl-12 pr-4 py-3 border border-[#eaddcf] dark:border-neutral-700 rounded-full leading-5 bg-white/80 dark:bg-[#1a1a1a]/80 backdrop-blur-md placeholder-stone-400 focus:outline-none focus:ring-2 focus:ring-rose-500/50 focus:border-rose-500 sm:text-sm shadow-lg shadow-stone-200/20 dark:shadow-none transition-all"
-                    placeholder={t('searchIn', language).replace('{category}', category)}
-                    value={searchQuery}
-                    onChange={(e) => onSearch(e.target.value)}
-                />
-                <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-stone-400 group-focus-within:text-rose-500 transition-colors">
-                    <Icon name="search" />
-                </div>
-            </div>
-          </div>
-      )}
-      
-      <div className="animate-fade-in-up mt-0 relative z-10 pb-20">
-        {selectedAuthor && <AuthorProfile author={selectedAuthor} postCount={posts.length} />}
-        {!searchQuery && !category && !selectedAuthor && <WordOfTheDay language={language} />}
-
-        {(() => {
-          if (searchQuery) {
-            return (
-              <div className="flex items-center gap-2 mb-6 text-[#8a7060] px-2">
-                <Icon name="search" />
-                <h3 className="text-lg font-semibold font-tamil">
-                    {t('searchResultsFor', language).replace('{query}', searchQuery)}
-                </h3>
-              </div>
-            );
-          }
-          if (category) {
-            return (
-              <div className="flex items-center gap-2 mb-6 px-2">
-                 <h3 className="text-2xl font-bold font-tamil text-[#3e2b22] dark:text-stone-100">
-                    {category} <span className="text-[#8a7060] text-lg font-normal ml-2">{posts.length} {t('posts', language)}</span>
-                 </h3>
-              </div>
-            );
-          }
-          return null; 
-        })()}
-
-        {isLoading ? (
-            <div className="grid gap-6 sm:gap-8 grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
-                {[1, 2, 3, 4, 5, 6].map(i => (
-                    <div key={i} className="h-96"><Skeleton /></div>
-                ))}
-            </div>
-        ) : (
-            posts.length > 0 ? (
-            <div className="grid gap-6 sm:gap-8 grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
-                {posts.map((post, idx) => (
-                <div key={post.id} style={{ animationDelay: `${idx * 50}ms` }} className="animate-fade-in h-full">
-                    <PostCard post={post} onNavigate={onNavigate} currentUser={currentUser} />
-                </div>
-                ))}
-            </div>
-            ) : (
-            <div className="text-center py-24 bg-white/40 dark:bg-[#1a1a1a]/40 backdrop-blur-sm rounded-3xl border border-dashed border-[#eaddcf] dark:border-neutral-800 mx-2">
-                <div className="text-[#eaddcf] dark:text-neutral-700 mb-4 flex justify-center">
-                    <svg className="w-16 h-16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z" /></svg>
-                </div>
-                <p className="text-lg font-medium text-[#8a7060] dark:text-stone-400">
-                    {searchQuery ? t('noSearchResults', language) : t('noPostsFound', language)}
-                </p>
-            </div>
+    const filteredPosts = useMemo(() => {
+        if (!subFilter || !isPoemCategory) return posts;
+        const keywords: Record<string, string[]> = {
+            'இயற்கை': ['மழை', 'மரம்', 'காடு', 'பூ', 'நிலவு', 'வான்', 'விண்ணை', 'விவசாயம்'],
+            'காதல்': ['அன்பு', 'நினைவில்', 'காதலர்', 'ஆசை', 'அகம்', 'முகம்'],
+            'வாழ்வியல்': ['வாழ்க்கை', 'அறம்', 'முயற்சி', 'நேரம்', 'தனிமை', 'புத்தகம்', 'மாற்றம்'],
+            'ஆன்மீகம்': ['கடவுள்', 'இறைவன்', 'தெய்வம்', 'தவம்', 'அரனை']
+        };
+        const currentKeywords = keywords[subFilter] || [];
+        return posts.filter(post => 
+            currentKeywords.some(keyword => 
+                post.title.includes(keyword) || post.content.includes(keyword)
             )
+        );
+    }, [posts, subFilter, isPoemCategory]);
+
+  return (
+    <div className="w-full flex flex-col items-center min-h-screen bg-[#F9F8F4] dark:bg-stone-950">
+      <SEO title={pageTitle} description={pageDescription} />
+
+      <div className={`w-full ${isPoemCategory ? 'max-w-[800px]' : 'max-w-4xl'} px-4 pt-4 pb-32`}>
+        {breadcrumbs.length > 0 && <Breadcrumbs items={breadcrumbs} />}
+
+        {isRootHome && (
+          <div className="text-center pt-6 animate-subtle-fade">
+            <h2 className="text-5xl md:text-7xl font-bold font-tamil text-stone-900 dark:text-stone-100 leading-[1.3] mb-8">
+              {t('tagline', language)}
+            </h2>
+            <p className="text-xl md:text-2xl text-stone-500 dark:text-stone-500 font-serif italic max-w-2xl mx-auto leading-relaxed mb-12">
+              {t('subTagline', language)}
+            </p>
+            <VisionSection />
+            <WordOfTheDay language={language} />
+            <FeaturePillars />
+          </div>
         )}
+
+        {category && (
+            <div className={`mb-12 px-2 animate-subtle-fade ${isPoemCategory ? 'max-w-xl mx-auto text-center' : 'max-w-2xl mx-auto'}`}>
+              <div className="relative group">
+                  <input
+                      type="text"
+                      className={`block w-full pl-12 pr-4 py-3 border border-stone-200 dark:border-stone-800 rounded-full leading-5 bg-white dark:bg-stone-900 placeholder-stone-400 focus:outline-none focus:ring-2 focus:ring-zen-green/10 focus:border-zen-green/30 transition-all text-stone-800 dark:text-stone-300 ${isPoemCategory ? 'text-center' : ''}`}
+                      placeholder={isPoemCategory ? "கவிதையைத் தேடு..." : t('searchIn', language).replace('{category}', category)}
+                      value={searchQuery}
+                      onChange={(e) => onSearch(e.target.value)}
+                  />
+                  <div className={`absolute inset-y-0 ${isPoemCategory ? 'left-6' : 'left-0 pl-4'} flex items-center pointer-events-none text-stone-400 group-focus-within:text-zen-green transition-colors`}>
+                      <Icon name="search" />
+                  </div>
+              </div>
+
+              {isPoemCategory && (
+                <div className="flex flex-wrap justify-center gap-2 mt-6 animate-subtle-fade">
+                    {['இயற்கை', 'காதல்', 'வாழ்வியல்', 'ஆன்மீகம்'].map((chip) => (
+                        <button
+                            key={chip}
+                            onClick={() => setSubFilter(subFilter === chip ? null : chip)}
+                            className={`px-5 py-1.5 rounded-full text-[13px] font-bold transition-all duration-300 border ${
+                                subFilter === chip 
+                                ? 'bg-zen-green border-zen-green text-white shadow-md' 
+                                : 'bg-transparent border-zen-green/30 text-zen-green hover:border-zen-green'
+                            }`}
+                        >
+                            {chip}
+                        </button>
+                    ))}
+                </div>
+              )}
+            </div>
+        )}
+        
+        <div className="animate-subtle-fade">
+          {selectedAuthor && <AuthorProfile author={selectedAuthor} postCount={posts.length} />}
+
+          {isLoading ? (
+              <div className={`w-full mx-auto ${isPoemCategory ? 'space-y-6' : 'space-y-12'}`}>
+                  {[1, 2, 3].map(i => (
+                      <div key={i} className={isPoemCategory ? 'h-32' : 'h-64'}>
+                        <Skeleton variant={isPoemCategory ? 'minimal' : 'default'} />
+                      </div>
+                  ))}
+              </div>
+          ) : (
+              !isRootHome ? (
+                  filteredPosts.length > 0 ? (
+                      <div className={`${isPoemCategory ? 'space-y-6' : 'space-y-12 sm:space-y-20'} w-full mx-auto`}>
+                          {searchQuery && (
+                            <div className="flex items-center gap-2 mb-10 text-stone-500 px-2 uppercase text-[10px] font-bold tracking-widest">
+                              <Icon name="search" />
+                              <span>{t('searchResultsFor', language).replace('{query}', searchQuery)}</span>
+                            </div>
+                          )}
+
+                          {filteredPosts.map((post) => (
+                              <div key={post.id} className="animate-subtle-fade">
+                                  <PostCard 
+                                    post={post} 
+                                    onNavigate={onNavigate} 
+                                    currentUser={currentUser}
+                                    variant={isPoemCategory ? 'minimal' : 'default'}
+                                  />
+                              </div>
+                          ))}
+                      </div>
+                  ) : (
+                      <div className="text-center py-32 bg-white dark:bg-stone-900/50 rounded-3xl border border-dashed border-stone-200 dark:border-stone-800 mx-2 w-full mx-auto">
+                          <p className="text-xl font-serif italic text-stone-500">
+                              {searchQuery || subFilter ? t('noSearchResults', language) : t('noPostsFound', language)}
+                          </p>
+                      </div>
+                  )
+              ) : null
+          )}
+        </div>
       </div>
     </div>
   );
