@@ -59,8 +59,8 @@ export const translations = {
   contentPlaceholder: { ta: 'உங்கள் படைப்பை இங்கே எழுதுங்கள்...', en: 'Write your heart here...' },
   submit: { ta: 'சமர்ப்பி', en: 'Publish' },
   
-  // Classics - Updated as per request
-  classics: { ta: 'இலக்கியம்', en: 'Classics' },
+  // Classics / Wisdom
+  classics: { ta: 'ஞானம்', en: 'Wisdom' },
   participate: { ta: 'பங்கேற்க', en: 'Participate' },
   
   // Login Modal
@@ -145,7 +145,7 @@ export const translations = {
   fruitsDesc: { ta: 'பழங்களின் பெயர்கள்', en: 'Names of common fruits.' },
   flowersDesc: { ta: 'மலர்களின் பெயர்கள்', en: 'Names of common flowers.' },
   shapesDesc: { ta: 'அடிப்படை வடிவங்கள்', en: 'Basic geometric shapes.' },
-  actionsDesc: { ta: 'அடிப்படை வினைச்சொற்கள்', en: 'Common action verbs.' },
+  actionsDesc: { ta: 'அடிப்படை வினைச்சொற்கற்கள்', en: 'Common action verbs.' },
 };
 
 export const t = (key: keyof typeof translations, lang: Language): string => {
