@@ -56,7 +56,7 @@ const days = [
   { word: 'ஞாயிறு', en: 'GNAYIRU', meaning: 'Sunday' }, { word: 'திங்கள்', en: 'THINGAL', meaning: 'Monday' }, { word: 'செவ்வாய்', en: 'SEVVAI', meaning: 'Tuesday' }, { word: 'புதன்', en: 'BUDHAN', meaning: 'Wednesday' }, { word: 'வியாழன்', en: 'VIYAZHAN', meaning: 'Thursday' }, { word: 'வெள்ளி', en: 'VELLI', meaning: 'Friday' }, { word: 'சனி', en: 'SANI', meaning: 'Saturday' },
 ];
 const months = [
-  { word: 'சித்திரை', en: 'CHITHIRAI', meaning: 'Mid Apr - Mid May' }, { word: 'வைகாசி', en: 'VAIKASI', meaning: 'Mid May - Mid Jun' }, { word: 'ஆனி', en: 'AANI', meaning: 'Mid Jun - Mid Jul' }, { word: 'ஆடி', en: 'AADI', meaning: 'Mid Jul - Mid Aug' }, { word: 'ஆவணி', en: 'AAVANI', meaning: 'Mid Aug - Mid Sep' }, { word: 'புரட்டாசி', en: 'PURATTASI', meaning: 'Mid Sep - Mid Oct' }, { word: 'ஐப்பசி', en: 'AIPPASI', meaning: 'Mid Oct - Mid Nov' }, { word: 'கார்த்திகை', en: 'KARTHIGAI', meaning: 'Mid Nov - Mid Dec' }, { word: 'மார்கழி', en: 'MARGAZHI', meaning: 'Mid Dec - Mid Jan' }, { word: 'தை', en: 'THAI', meaning: 'Mid Jan - Mid Feb' }, { word: 'மாசி', en: 'MAASI', meaning: 'Mid Feb - Mid Mar' }, { word: 'பங்குனி', en: 'PANGUNI', meaning: 'Mid Mar - Mid Apr' },
+  { word: 'సిத்திரை', en: 'CHITHIRAI', meaning: 'Mid Apr - Mid May' }, { word: 'வைகாசி', en: 'VAIKASI', meaning: 'Mid May - Mid Jun' }, { word: 'ஆனி', en: 'AANI', meaning: 'Mid Jun - Mid Jul' }, { word: 'ஆடி', en: 'AADI', meaning: 'Mid Jul - Mid Aug' }, { word: 'ஆவணி', en: 'AAVANI', meaning: 'Mid Aug - Mid Sep' }, { word: 'புரட்டாசி', en: 'PURATTASI', meaning: 'Mid Sep - Mid Oct' }, { word: 'ஐப்பசி', en: 'AIPPASI', meaning: 'Mid Oct - Mid Nov' }, { word: 'கார்த்திகை', en: 'KARTHIGAI', meaning: 'Mid Nov - Mid Dec' }, { word: 'மார்கழி', en: 'MARGAZHI', meaning: 'Mid Dec - Mid Jan' }, { word: 'தை', en: 'THAI', meaning: 'Mid Jan - Mid Feb' }, { word: 'மாசி', en: 'MAASI', meaning: 'Mid Feb - Mid Mar' }, { word: 'பங்குனி', en: 'PANGUNI', meaning: 'Mid Mar - Mid Apr' },
 ];
 const grammarTypes = [
   { title: 'எழுத்து', en: 'Ezhuthu', desc: 'எழுத்துக்களின் பிறப்பு, வகைகள் மற்றும் ஒலிப்பு முறைகளை விளக்குவது.', enDesc: 'Phonology: Deals with letters, their formation, and pronunciation.' }, { title: 'சொல்', en: 'Sol', desc: 'சொற்களின் வகைகள் (பெயர், வினை, இடை, உரி) மற்றும் அவற்றின் இலக்கணம்.', enDesc: 'Morphology: Deals with words, their classification, and formation.' }, { title: 'பொருள்', en: 'Porul', desc: 'வாழ்வியல் நெறிகள் (அகம், புறம்) மற்றும் கவிதைப் பொருளை விளக்குவது.', enDesc: 'Semantics: Deals with the subject matter of poetry (Love & War/Life).' }, { title: 'யாப்பு', en: 'Yaappu', desc: 'செய்யுள் இயற்றும் விதிகள், அசை, சீர், தளை, அடி, தொடை ஆகியவற்றை கூறுவது.', enDesc: 'Prosody: Rules of versification and poetry construction.' }, { title: 'அணி', en: 'Ani', desc: 'செய்யுளுக்கு அழகு சேர்க்கும் உவமை, உருவகம் போன்ற அணிகளை விளக்குவது.', enDesc: 'Rhetoric: Figures of speech and literary ornamentation.' }
@@ -100,8 +100,8 @@ export const TamilKarkaView: React.FC<TamilKarkaViewProps> = ({ language, onNavi
   const getSectionTitle = (id: SectionId) => t(topics.find(t => t.id === id)!.titleKey as any, language);
 
   const breadcrumbs: BreadcrumbItem[] = [
-      { label: t('home', language), onClick: () => onNavigate('home'), icon: 'home' as const },
-      { label: t('learnTamil', language), onClick: () => setActiveSection(null), active: !activeSection, icon: 'school' as const }
+      { label: t('home', language), onClick: () => onNavigate('home') },
+      { label: t('learnTamil', language), onClick: () => setActiveSection(null), active: !activeSection }
   ];
 
   if (activeSection) {

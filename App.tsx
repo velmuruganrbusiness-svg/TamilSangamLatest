@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { Footer } from './components/Footer';
 import { Home } from './components/Home';
@@ -134,7 +133,7 @@ const App: React.FC = () => {
       case 'editor':
         return <Editor onSubmit={handlePostSubmit} language={language} onNavigate={handleNavigate} />;
       case 'classics':
-        return <ClassicsView works={classicalWorks} language={language} selectedWorkId={selectedClassicalWorkId} />;
+        return <ClassicsView works={classicalWorks} language={language} selectedWorkId={selectedClassicalWorkId} onNavigate={handleNavigate} />;
       case 'potikal':
         return <PotikalView competitions={competitions} language={language} onNavigate={handleNavigate} />;
       case 'karka':
@@ -152,7 +151,7 @@ const App: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen flex flex-col transition-colors duration-500 bg-[#F9F8F4] dark:bg-stone-950">
+    <div className="min-h-screen flex flex-col transition-colors duration-500 bg-[#FDFBF7] dark:bg-stone-950">
       <Header 
         currentUser={currentUser}
         onLoginClick={() => setShowLoginModal(true)}
@@ -166,7 +165,7 @@ const App: React.FC = () => {
         activeCategory={selectedCategory}
       />
 
-      <main className="flex-grow flex justify-center pt-[216px] pb-6 sm:pb-12 px-4 bg-[#F9F8F4] dark:bg-stone-950">
+      <main className="flex-grow flex justify-center pt-[216px] pb-6 sm:pb-12 px-4 bg-[#FDFBF7] dark:bg-stone-950">
         <div className="w-full max-w-5xl">
            {renderContent()}
         </div>

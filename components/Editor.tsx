@@ -34,8 +34,8 @@ export const Editor: React.FC<EditorProps> = ({ onSubmit, language, onNavigate }
   };
 
   const breadcrumbs = [
-      { label: t('home', language), onClick: () => onNavigate('home'), icon: 'home' as const },
-      { label: t('write', language), active: true, icon: 'pen' as const }
+      { label: t('home', language), onClick: () => onNavigate('home') },
+      { label: t('write', language), active: true }
   ];
 
   return (

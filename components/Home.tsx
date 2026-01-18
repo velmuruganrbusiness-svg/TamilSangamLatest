@@ -10,7 +10,7 @@ import { Breadcrumbs } from './Breadcrumbs';
 
 interface HomeProps {
   posts: Post[];
-  onNavigate: (page: 'post' | 'category' | 'home' | 'author', id?: number | null, category?: Category | null) => void;
+  onNavigate: (page: any, id?: number | null, category?: Category | null) => void;
   category?: Category | null;
   language: Language;
   searchQuery?: string;
@@ -20,11 +20,17 @@ interface HomeProps {
   selectedAuthor?: User;
 }
 
-const VisionSection: React.FC = () => (
+const VisionSection: React.FC<{ onNavigate: (page: any) => void }> = ({ onNavigate }) => (
     <div className="text-center py-16 animate-subtle-fade px-4">
-        <p className="text-lg md:text-xl font-tamil text-stone-700 dark:text-stone-300 leading-loose max-w-3xl mx-auto italic">
+        <p className="text-lg md:text-xl font-tamil text-stone-700 dark:text-stone-300 leading-loose max-w-3xl mx-auto italic mb-10">
             "வெற்றிஜென் (VetriZen) என்பது ஒரு டிஜிட்டல் நந்தவனம். பரபரப்பான உலகில், அமைதியான சூழலில் படைப்புகளைப் படிக்கவும் பகிரவும் உருவாக்கப்பட்ட ஒரு தளம்."
         </p>
+        <button 
+            onClick={() => onNavigate('classics')}
+            className="inline-block border-2 border-[#3E2723] dark:border-stone-200 text-[#3E2723] dark:text-stone-200 font-medium rounded-full px-8 py-2 hover:bg-[#2d5f2e] hover:text-white hover:border-[#2d5f2e] transition-all duration-300 active:scale-95"
+        >
+            பயணத்தைத் தொடங்க
+        </button>
     </div>
 );
 
@@ -124,7 +130,7 @@ export const Home: React.FC<HomeProps> = ({
 
     const breadcrumbs = [];
     if (!isRootHome) {
-        breadcrumbs.push({ label: t('home', language), onClick: () => onNavigate('home'), icon: 'home' as const });
+        breadcrumbs.push({ label: t('home', language), onClick: () => onNavigate('home') });
     }
 
     if (category) {
@@ -163,13 +169,13 @@ export const Home: React.FC<HomeProps> = ({
 
         {isRootHome && (
           <div className="text-center pt-6 animate-subtle-fade">
-            <h2 className="text-5xl md:text-7xl font-bold font-tamil text-stone-900 dark:text-stone-100 leading-[1.3] mb-8">
+            <h2 className="text-[2.5rem] font-bold font-tamil text-stone-900 dark:text-stone-100 leading-[1.3] mb-8">
               {t('tagline', language)}
             </h2>
             <p className="text-xl md:text-2xl text-stone-500 dark:text-stone-500 font-serif italic max-w-2xl mx-auto leading-relaxed mb-12">
               {t('subTagline', language)}
             </p>
-            <VisionSection />
+            <VisionSection onNavigate={onNavigate} />
             <WordOfTheDay language={language} />
             <FeaturePillars />
           </div>

@@ -54,7 +54,7 @@ export const PostView: React.FC<PostViewProps> = ({ post, onNavigate, language }
   };
 
   const breadcrumbs = [
-      { label: t('home', language), onClick: () => onNavigate('home'), icon: 'home' as const },
+      { label: t('home', language), onClick: () => onNavigate('home') },
       { label: post.category, onClick: () => onNavigate('category', null, post.category) },
       { label: post.title, active: true }
   ];

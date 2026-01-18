@@ -23,8 +23,8 @@ export const PotikalView: React.FC<PotikalViewProps> = ({ competitions, language
   };
 
   const breadcrumbs = [
-      { label: t('home', language), onClick: () => onNavigate('home'), icon: 'home' as const },
-      { label: t('competitions', language), active: true, icon: 'trophy' as const }
+      { label: t('home', language), onClick: () => onNavigate('home') },
+      { label: t('competitions', language), active: true }
   ];
 
   return (

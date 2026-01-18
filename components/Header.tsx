@@ -101,7 +101,7 @@ export const Header: React.FC<HeaderProps> = ({
               </div>
               <div className="flex flex-col">
                 <h1 className={`font-black font-sans tracking-tight transition-all duration-500 leading-none ${isScrolled ? 'text-xl md:text-2xl' : 'text-2xl md:text-3xl'}`}>
-                  <span className="text-[#3D3D3D] dark:text-white">Vetri</span>
+                  <span className="text-[#555555] dark:text-white">Vetri</span>
                   <span className="text-zen-green">Zen</span>
                 </h1>
                 <span className={`font-sans font-medium text-[#333333] dark:text-stone-400 transition-all duration-500 ${isScrolled ? 'text-[9px] tracking-[0.12em] mt-1' : 'text-[11px] tracking-[0.18em] mt-1.5'}`}>
@@ -165,12 +165,7 @@ export const Header: React.FC<HeaderProps> = ({
             <NavItem label={t('poems', language)} onClick={() => onNavigate('category', null, 'கவிதை')} active={activePage === 'category' && activeCategory === 'கவிதை'} />
             <NavItem label={t('stories', language)} onClick={() => onNavigate('category', null, 'கதை')} active={activePage === 'category' && activeCategory === 'கதை'} />
             <NavItem label={t('competitions', language)} onClick={() => onNavigate('potikal')} active={activePage === 'potikal'} />
-            
-            {/* Renamed to Wisdom with Curated Dropdown */}
-            <NavGroup label={t('classics', language)} active={activePage === 'classics'} items={[
-                { label: 'திருக்குறள்', onClick: () => onNavigate('classics', null, null, 'thirukkural') },
-                { label: 'ஆத்திசூடி', onClick: () => onNavigate('classics', null, null, 'aathichoodi') },
-            ]} />
+            <NavItem label={t('classics', language)} onClick={() => onNavigate('classics', null)} active={activePage === 'classics'} />
         </nav>
       </div>
 
@@ -185,14 +180,7 @@ export const Header: React.FC<HeaderProps> = ({
                           <button onClick={() => { onNavigate('category', null, 'கவிதை'); setIsMobileMenuOpen(false); }} className={`text-left text-lg font-semibold ${activePage === 'category' && activeCategory === 'கவிதை' ? 'text-zen-green' : 'text-[#2D2D2D] dark:text-stone-300'}`}>{t('poems', language)}</button>
                           <button onClick={() => { onNavigate('category', null, 'கதை'); setIsMobileMenuOpen(false); }} className={`text-left text-lg font-semibold ${activePage === 'category' && activeCategory === 'கதை' ? 'text-zen-green' : 'text-[#2D2D2D] dark:text-stone-300'}`}>{t('stories', language)}</button>
                           <button onClick={() => { onNavigate('potikal'); setIsMobileMenuOpen(false); }} className={`text-left text-lg font-semibold ${activePage === 'potikal' ? 'text-zen-green' : 'text-[#2D2D2D] dark:text-stone-300'}`}>{t('competitions', language)}</button>
-                      </div>
-                  </div>
-
-                  <div className="space-y-4 pt-6 border-t border-stone-200/50 dark:border-stone-800/50">
-                      <p className="text-[11px] font-black uppercase tracking-[0.2em] text-stone-400">{t('classics', language)}</p>
-                      <div className="flex flex-col gap-5 pl-4">
-                          <button onClick={() => { onNavigate('classics', null, null, 'thirukkural'); setIsMobileMenuOpen(false); }} className="text-left text-base font-semibold text-stone-600 dark:text-stone-400">திருக்குறள்</button>
-                          <button onClick={() => { onNavigate('classics', null, null, 'aathichoodi'); setIsMobileMenuOpen(false); }} className="text-left text-base font-semibold text-stone-600 dark:text-stone-400">ஆத்திசூடி</button>
+                          <button onClick={() => { onNavigate('classics', null); setIsMobileMenuOpen(false); }} className={`text-left text-lg font-semibold ${activePage === 'classics' ? 'text-zen-green' : 'text-[#2D2D2D] dark:text-stone-300'}`}>{t('classics', language)}</button>
                       </div>
                   </div>
                   

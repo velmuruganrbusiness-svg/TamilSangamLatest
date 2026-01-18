@@ -1,9 +1,8 @@
-
 <!DOCTYPE html>
 <html lang="ta">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale-1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="theme-color" content="#5A7D5B" />
     
     <title>VetriZen - அமைதியில் ஒரு வெற்றி</title>
@@ -17,7 +16,7 @@
           extend: {
             colors: {
               bone: {
-                DEFAULT: '#F9F8F4',
+                DEFAULT: '#FDFBF7',
                 dark: '#1C1C1B',
               },
               zen: {
@@ -27,7 +26,7 @@
                 sand: '#EAE7DD',
               },
               stone: {
-                50: '#F9F8F4',
+                50: '#FDFBF7',
                 100: '#F1EFE7',
                 200: '#E7E5DA',
                 800: '#2D2D2A',
@@ -58,7 +57,7 @@
     <style>
       body {
         font-family: 'Inter', sans-serif;
-        background-color: #F9F8F4;
+        background-color: #FDFBF7;
       }
       .font-tamil-serif {
         font-family: 'Noto Serif Tamil', serif;
@@ -75,7 +74,7 @@
         width: 6px;
       }
       ::-webkit-scrollbar-track {
-        background: #F9F8F4;
+        background: #FDFBF7;
       }
       ::-webkit-scrollbar-thumb {
         background-color: #D1CFBF;
@@ -86,6 +85,50 @@
       }
       .dark ::-webkit-scrollbar-thumb {
         background-color: #3D3D3A;
+      }
+
+      /* Olai Chuvadi (Palm Leaf) Styles */
+      .olai-container {
+        background-color: #F4E4BC;
+        background-image: linear-gradient(to right, rgba(0,0,0,0.02) 1px, transparent 1px), 
+                          linear-gradient(to bottom, rgba(141, 110, 99, 0.05) 1px, transparent 1px);
+        background-size: 20px 20px;
+        border: 2px solid #8D6E63;
+        border-radius: 8px;
+        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        position: relative;
+        padding: 3rem 4rem;
+        margin-bottom: 2rem;
+        width: 100%;
+        max-width: 900px;
+        transition: transform 0.3s ease;
+      }
+      .olai-container:hover {
+        transform: translateY(-2px);
+      }
+      .olai-hole {
+        position: absolute;
+        width: 14px;
+        height: 14px;
+        background-color: #5D4037;
+        border-radius: 50%;
+        top: 50%;
+        transform: translateY(-50%);
+        box-shadow: inset 0 2px 4px rgba(0,0,0,0.5);
+      }
+      .olai-hole-left { left: 24px; }
+      .olai-hole-right { right: 24px; }
+
+      .olai-text {
+        color: #3E2723;
+        line-height: 1.8;
+      }
+      .olai-meaning {
+        color: #5D4037;
+        border-top: 1px solid rgba(93, 64, 55, 0.15);
+        margin-top: 1.5rem;
+        padding-top: 1rem;
+        font-style: italic;
       }
     </style>
   <script type="importmap">
@@ -100,7 +143,7 @@
 }
 </script>
 </head>
-  <body class="bg-[#F9F8F4] text-[#2D2D2D] dark:bg-stone-950 dark:text-stone-200 transition-colors duration-500">
+  <body class="bg-[#FDFBF7] text-[#2D2D2D] dark:bg-stone-950 dark:text-stone-200 transition-colors duration-500">
     <div id="root"></div>
     <script type="module" src="/index.tsx"></script>
   </body>
