@@ -171,7 +171,7 @@ const App: React.FC = () => {
         </div>
       </main>
 
-      <Footer language={language} />
+      <Footer language={language} onNavigate={handleNavigate} />
 
       {showScrollTop && (
         <button onClick={() => window.scrollTo({top:0, behavior:'smooth'})} className="fixed bottom-8 right-8 p-4 rounded-full bg-zen-green text-white shadow-2xl hover:bg-zen-lightGreen transition-all z-50 flex items-center justify-center">
