@@ -9,15 +9,12 @@ import { TamilKarkaView } from './components/TamilKarkaView';
 import { LoginModal } from './components/LoginModal';
 import { Header } from './components/Header';
 import { mockApi } from './services/mockApi';
-import { api as realApi } from './services/api';
 import { Icon } from './components/Icon';
 import type { Post, User, ClassicalWork, Category, Competition } from './types';
 import type { Language } from './utils/translations';
 
 type Page = 'home' | 'post' | 'editor' | 'classics' | 'category' | 'potikal' | 'karka' | 'author';
 type Theme = 'light' | 'dark';
-
-const USE_REAL_DB = false; 
 
 const App: React.FC = () => {
   const [page, setPage] = useState<Page>('home');
@@ -40,14 +37,8 @@ const App: React.FC = () => {
     const fetchData = async () => {
       setLoading(true);
       try {
-        let fetchedPosts: Post[] = [];
-        if (USE_REAL_DB) {
-            fetchedPosts = await realApi.getPosts();
-            if (fetchedPosts.length === 0) fetchedPosts = await mockApi.getPosts();
-        } else {
-            fetchedPosts = await mockApi.getPosts();
-        }
-        const [fetchedClassics, fetchedCompetitions] = await Promise.all([
+        const [fetchedPosts, fetchedClassics, fetchedCompetitions] = await Promise.all([
+            mockApi.getPosts(),
             mockApi.getClassicalWorks(),
             mockApi.getCompetitions(),
         ]);
@@ -89,10 +80,16 @@ const App: React.FC = () => {
   };
   
   const handleSearch = (query: string) => setSearchQuery(query);
+  
   const handleLogin = () => {
-    setCurrentUser({ id: 1, name: 'வாசகர்', avatarUrl: 'https://ui-avatars.com/api/?name=User&background=4A6741&color=fff' });
+    setCurrentUser({ 
+        id: 1, 
+        name: 'வாசகர்', 
+        avatarUrl: 'https://ui-avatars.com/api/?name=User&background=4A6741&color=fff' 
+    });
     setShowLoginModal(false);
   };
+  
   const handleLogout = () => setCurrentUser(null);
 
   const handlePostSubmit = async (newPost: Omit<Post, 'id' | 'author' | 'likes' | 'comments' | 'createdAt'>) => {
@@ -100,19 +97,21 @@ const App: React.FC = () => {
       setShowLoginModal(true);
       return;
     }
-    const postData = { ...newPost, author: currentUser };
-    if (USE_REAL_DB) {
-        const savedPost = await realApi.createPost(postData);
-        if (savedPost) {
-            setPosts([savedPost, ...posts]);
-            handleNavigate('home');
-        }
-    } else {
-        const post: Post = { ...postData, id: Date.now(), likes: 0, comments: [], createdAt: new Date().toISOString() };
-        await new Promise(r => setTimeout(r, 800));
-        setPosts([post, ...posts]);
-        handleNavigate('home');
-    }
+    
+    // Simulate API delay
+    await new Promise(r => setTimeout(r, 800));
+    
+    const post: Post = { 
+        ...newPost, 
+        author: currentUser,
+        id: Date.now(), 
+        likes: 0, 
+        comments: [], 
+        createdAt: new Date().toISOString() 
+    };
+    
+    setPosts([post, ...posts]);
+    handleNavigate('home');
   };
   
   const toggleLanguage = () => setLanguage(l => l === 'ta' ? 'en' : 'ta');
@@ -129,7 +128,9 @@ const App: React.FC = () => {
     switch (page) {
       case 'post':
         const post = posts.find(p => p.id == selectedPostId);
-        return post ? <PostView post={post} onNavigate={handleNavigate} language={language} /> : <div className="text-center p-10">Post not found</div>;
+        return post 
+            ? <PostView post={post} onNavigate={handleNavigate} language={language} /> 
+            : <div className="text-center p-10">Post not found</div>;
       case 'editor':
         return <Editor onSubmit={handlePostSubmit} language={language} onNavigate={handleNavigate} />;
       case 'classics':
@@ -139,14 +140,48 @@ const App: React.FC = () => {
       case 'karka':
         return <TamilKarkaView language={language} onNavigate={handleNavigate} />;
       case 'category':
-        return <Home posts={searchedPosts.filter(p => p.category === selectedCategory)} onNavigate={handleNavigate} category={selectedCategory} language={language} searchQuery={searchQuery} onSearch={handleSearch} currentUser={currentUser} isLoading={loading} />;
+        return (
+            <Home 
+                posts={searchedPosts.filter(p => p.category === selectedCategory)} 
+                onNavigate={handleNavigate} 
+                category={selectedCategory} 
+                language={language} 
+                searchQuery={searchQuery} 
+                onSearch={handleSearch} 
+                currentUser={currentUser} 
+                isLoading={loading} 
+            />
+        );
       case 'author':
         const authorPosts = searchedPosts.filter(p => p.author.id === selectedAuthorId);
-        const authorDetails = authorPosts.length > 0 ? authorPosts[0].author : posts.find(p => p.author.id === selectedAuthorId)?.author;
-        return <Home posts={authorPosts} onNavigate={handleNavigate} language={language} searchQuery={searchQuery} onSearch={handleSearch} currentUser={currentUser} isLoading={loading} selectedAuthor={authorDetails} />;
+        const authorDetails = authorPosts.length > 0 
+            ? authorPosts[0].author 
+            : posts.find(p => p.author.id === selectedAuthorId)?.author;
+        return (
+            <Home 
+                posts={authorPosts} 
+                onNavigate={handleNavigate} 
+                language={language} 
+                searchQuery={searchQuery} 
+                onSearch={handleSearch} 
+                currentUser={currentUser} 
+                isLoading={loading} 
+                selectedAuthor={authorDetails} 
+            />
+        );
       case 'home':
       default:
-        return <Home posts={searchedPosts} onNavigate={handleNavigate} language={language} searchQuery={searchQuery} onSearch={handleSearch} currentUser={currentUser} isLoading={loading} />;
+        return (
+            <Home 
+                posts={searchedPosts} 
+                onNavigate={handleNavigate} 
+                language={language} 
+                searchQuery={searchQuery} 
+                onSearch={handleSearch} 
+                currentUser={currentUser} 
+                isLoading={loading} 
+            />
+        );
     }
   };
 
@@ -174,12 +209,22 @@ const App: React.FC = () => {
       <Footer language={language} onNavigate={handleNavigate} />
 
       {showScrollTop && (
-        <button onClick={() => window.scrollTo({top:0, behavior:'smooth'})} className="fixed bottom-8 right-8 p-4 rounded-full bg-zen-green text-white shadow-2xl hover:bg-zen-lightGreen transition-all z-50 flex items-center justify-center">
+        <button 
+            onClick={() => window.scrollTo({top:0, behavior:'smooth'})} 
+            className="fixed bottom-8 right-8 p-4 rounded-full bg-zen-green text-white shadow-2xl hover:bg-zen-lightGreen transition-all z-50 flex items-center justify-center"
+            aria-label="Scroll to top"
+        >
           <Icon name="arrow-up" />
         </button>
       )}
 
-      {showLoginModal && <LoginModal onClose={() => setShowLoginModal(false)} onLogin={handleLogin} language={language} />}
+      {showLoginModal && (
+        <LoginModal 
+            onClose={() => setShowLoginModal(false)} 
+            onLogin={handleLogin} 
+            language={language} 
+        />
+      )}
     </div>
   );
 };
